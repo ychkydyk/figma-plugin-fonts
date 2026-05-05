@@ -5,3 +5,7 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+# Большие промо-картинки (4K PNG ~20-35 MB) — не для git, лежат локально
+promo/*.png
+promo/*.jpg
+

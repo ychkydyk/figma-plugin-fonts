@@ -12,8 +12,10 @@
       "https://fonts.gstatic.com",
       "https://fonts.bunny.net",
       "https://cdn.jsdelivr.net",
-      "https://api.fontsource.org"
+      "https://api.fontsource.org",
+      "https://api.fontshare.com",
+      "https://cdn.fontshare.com"
     ],
-    "reasoning": "Скачивание шрифтов с Google Fonts (fonts.googleapis.com / fonts.gstatic.com) и зеркала Bunny Fonts (без трекеров). cdn.jsdelivr.net + api.fontsource.org — open-source CDN со всеми семействами Google Fonts в .ttf, который не требует ключа API."
+    "reasoning": "Скачивание шрифтов с проверенных источников: Google Fonts (fonts.googleapis.com / fonts.gstatic.com) и Bunny Fonts (зеркало без трекеров); Fontsource на jsdelivr — open-source CDN со всеми семействами Google Fonts в .ttf без API-ключа; Fontshare (Indian Type Foundry) — бесплатные шрифты для личного и коммерческого использования (Satoshi, Cabinet Grotesk, Clash Display и др.)."
   }
 }

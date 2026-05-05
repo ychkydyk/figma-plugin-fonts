@@ -324,61 +324,122 @@
 
 <script>
 // =============================================================
-//  CATALOG: 50 популярных Google Fonts (slug = id на Fontsource)
-//  URL: https://cdn.jsdelivr.net/fontsource/fonts/<slug>@latest/<subset>-<weight>-<style>.ttf
+//  CATALOG: ~80 Google Fonts (через Fontsource на jsdelivr) +
+//  ~15 Fontshare (Indian Type Foundry — бесплатно для личного и коммерческого).
+//
+//  source = "google":   https://cdn.jsdelivr.net/fontsource/fonts/<slug>@latest/<subset>-<weight>-<style>.ttf
+//  source = "fontshare": URL берётся из CSS API: https://api.fontshare.com/v2/css?f[]=<slug>@<weights>
 // =============================================================
 const STARTER_CATALOG = [
-  { family: "Inter",            slug: "inter",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Roboto",           slug: "roboto",           weights: [100,300,400,500,700,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Roboto Mono",      slug: "roboto-mono",      weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Roboto Condensed", slug: "roboto-condensed", weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Open Sans",        slug: "open-sans",        weights: [300,400,500,600,700,800],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Montserrat",       slug: "montserrat",       weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Poppins",          slug: "poppins",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Lato",             slug: "lato",             weights: [100,300,400,700,900],                 styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Nunito",           slug: "nunito",           weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Nunito Sans",      slug: "nunito-sans",      weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Raleway",          slug: "raleway",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Oswald",           slug: "oswald",           weights: [200,300,400,500,600,700],             styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "PT Sans",          slug: "pt-sans",          weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "PT Serif",         slug: "pt-serif",         weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "PT Mono",          slug: "pt-mono",          weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Source Sans 3",    slug: "source-sans-3",    weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Source Code Pro",  slug: "source-code-pro",  weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Source Serif 4",   slug: "source-serif-4",   weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Manrope",          slug: "manrope",          weights: [200,300,400,500,600,700,800],         styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Rubik",            slug: "rubik",            weights: [300,400,500,600,700,800,900],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "IBM Plex Sans",    slug: "ibm-plex-sans",    weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "IBM Plex Mono",    slug: "ibm-plex-mono",    weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "IBM Plex Serif",   slug: "ibm-plex-serif",   weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Work Sans",        slug: "work-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "DM Sans",          slug: "dm-sans",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "DM Mono",          slug: "dm-mono",          weights: [300,400,500],                         styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "DM Serif Display", slug: "dm-serif-display", weights: [400],                                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Fira Sans",        slug: "fira-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Fira Code",        slug: "fira-code",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "JetBrains Mono",   slug: "jetbrains-mono",   weights: [100,200,300,400,500,600,700,800],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Space Grotesk",    slug: "space-grotesk",    weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin"] },
-  { family: "Space Mono",       slug: "space-mono",       weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Playfair Display", slug: "playfair-display", weights: [400,500,600,700,800,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Merriweather",     slug: "merriweather",     weights: [300,400,700,900],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Lora",             slug: "lora",             weights: [400,500,600,700],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Bitter",           slug: "bitter",           weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Cormorant Garamond", slug: "cormorant-garamond", weights: [300,400,500,600,700],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "EB Garamond",      slug: "eb-garamond",      weights: [400,500,600,700,800],                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Crimson Pro",      slug: "crimson-pro",      weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Libre Baskerville",slug: "libre-baskerville",weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Libre Franklin",   slug: "libre-franklin",   weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Mulish",           slug: "mulish",           weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
-  { family: "Karla",            slug: "karla",            weights: [200,300,400,500,600,700,800],         styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Quicksand",        slug: "quicksand",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Comfortaa",        slug: "comfortaa",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Bebas Neue",       slug: "bebas-neue",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Archivo",          slug: "archivo",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
-  { family: "Anton",            slug: "anton",            weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Caveat",           slug: "caveat",           weights: [400,500,600,700],                     styles: ["normal"],          subsets: ["latin","cyrillic"] },
-  { family: "Pacifico",         slug: "pacifico",         weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] }
+  // --- Google Fonts: топ — Sans ---
+  { family: "Inter",            source: "google", slug: "inter",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Roboto",           source: "google", slug: "roboto",           weights: [100,300,400,500,700,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Roboto Condensed", source: "google", slug: "roboto-condensed", weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Open Sans",        source: "google", slug: "open-sans",        weights: [300,400,500,600,700,800],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Montserrat",       source: "google", slug: "montserrat",       weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Poppins",          source: "google", slug: "poppins",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Lato",             source: "google", slug: "lato",             weights: [100,300,400,700,900],                 styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Nunito",           source: "google", slug: "nunito",           weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Nunito Sans",      source: "google", slug: "nunito-sans",      weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Raleway",          source: "google", slug: "raleway",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Oswald",           source: "google", slug: "oswald",           weights: [200,300,400,500,600,700],             styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "PT Sans",          source: "google", slug: "pt-sans",          weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Manrope",          source: "google", slug: "manrope",          weights: [200,300,400,500,600,700,800],         styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Rubik",            source: "google", slug: "rubik",            weights: [300,400,500,600,700,800,900],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Work Sans",        source: "google", slug: "work-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "DM Sans",          source: "google", slug: "dm-sans",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Fira Sans",        source: "google", slug: "fira-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Source Sans 3",    source: "google", slug: "source-sans-3",    weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "IBM Plex Sans",    source: "google", slug: "ibm-plex-sans",    weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Mulish",           source: "google", slug: "mulish",           weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Karla",            source: "google", slug: "karla",            weights: [200,300,400,500,600,700,800],         styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Quicksand",        source: "google", slug: "quicksand",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Comfortaa",        source: "google", slug: "comfortaa",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Archivo",          source: "google", slug: "archivo",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Heebo",            source: "google", slug: "heebo",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin"] },
+  { family: "Hind",             source: "google", slug: "hind",             weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Barlow",           source: "google", slug: "barlow",           weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Outfit",           source: "google", slug: "outfit",           weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin"] },
+  { family: "Sora",             source: "google", slug: "sora",             weights: [100,200,300,400,500,600,700,800],     styles: ["normal"],          subsets: ["latin"] },
+  { family: "Urbanist",         source: "google", slug: "urbanist",         weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Public Sans",      source: "google", slug: "public-sans",      weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Red Hat Display",  source: "google", slug: "red-hat-display",  weights: [300,400,500,600,700,800,900],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Plus Jakarta Sans",source: "google", slug: "plus-jakarta-sans",weights: [200,300,400,500,600,700,800],         styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Asap",             source: "google", slug: "asap",             weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Catamaran",        source: "google", slug: "catamaran",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin"] },
+  { family: "Exo 2",            source: "google", slug: "exo-2",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Libre Franklin",   source: "google", slug: "libre-franklin",   weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Noto Sans",        source: "google", slug: "noto-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+
+  // --- Google Fonts: Display / Geometric ---
+  { family: "Bebas Neue",       source: "google", slug: "bebas-neue",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Anton",            source: "google", slug: "anton",            weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Space Grotesk",    source: "google", slug: "space-grotesk",    weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "DM Serif Display", source: "google", slug: "dm-serif-display", weights: [400],                                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Abril Fatface",    source: "google", slug: "abril-fatface",    weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Bungee",           source: "google", slug: "bungee",           weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+
+  // --- Google Fonts: Mono ---
+  { family: "Roboto Mono",      source: "google", slug: "roboto-mono",      weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "JetBrains Mono",   source: "google", slug: "jetbrains-mono",   weights: [100,200,300,400,500,600,700,800],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "IBM Plex Mono",    source: "google", slug: "ibm-plex-mono",    weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Fira Code",        source: "google", slug: "fira-code",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Source Code Pro",  source: "google", slug: "source-code-pro",  weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Space Mono",       source: "google", slug: "space-mono",       weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "DM Mono",          source: "google", slug: "dm-mono",          weights: [300,400,500],                         styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "PT Mono",          source: "google", slug: "pt-mono",          weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Inconsolata",      source: "google", slug: "inconsolata",      weights: [200,300,400,500,600,700,800,900],     styles: ["normal"],          subsets: ["latin"] },
+  { family: "Ubuntu Mono",      source: "google", slug: "ubuntu-mono",      weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Courier Prime",    source: "google", slug: "courier-prime",    weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "VT323",            source: "google", slug: "vt323",            weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Press Start 2P",   source: "google", slug: "press-start-2p",   weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+
+  // --- Google Fonts: Serif ---
+  { family: "PT Serif",         source: "google", slug: "pt-serif",         weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "IBM Plex Serif",   source: "google", slug: "ibm-plex-serif",   weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Source Serif 4",   source: "google", slug: "source-serif-4",   weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Playfair Display", source: "google", slug: "playfair-display", weights: [400,500,600,700,800,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Merriweather",     source: "google", slug: "merriweather",     weights: [300,400,700,900],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Lora",             source: "google", slug: "lora",             weights: [400,500,600,700],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Bitter",           source: "google", slug: "bitter",           weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Cormorant Garamond", source: "google", slug: "cormorant-garamond", weights: [300,400,500,600,700],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "EB Garamond",      source: "google", slug: "eb-garamond",      weights: [400,500,600,700,800],                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Crimson Pro",      source: "google", slug: "crimson-pro",      weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Crimson Text",     source: "google", slug: "crimson-text",     weights: [400,600,700],                         styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Libre Baskerville",source: "google", slug: "libre-baskerville",weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Vollkorn",         source: "google", slug: "vollkorn",         weights: [400,500,600,700,800,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Cardo",            source: "google", slug: "cardo",            weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Roboto Slab",      source: "google", slug: "roboto-slab",      weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
+
+  // --- Google Fonts: Handwriting / Script ---
+  { family: "Caveat",           source: "google", slug: "caveat",           weights: [400,500,600,700],                     styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Pacifico",         source: "google", slug: "pacifico",         weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Dancing Script",   source: "google", slug: "dancing-script",   weights: [400,500,600,700],                     styles: ["normal"],          subsets: ["latin"] },
+  { family: "Lobster",          source: "google", slug: "lobster",          weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Sacramento",       source: "google", slug: "sacramento",       weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Great Vibes",      source: "google", slug: "great-vibes",      weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Permanent Marker", source: "google", slug: "permanent-marker", weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+
+  // --- Fontshare (Indian Type Foundry — бесплатно для личного и коммерческого) ---
+  { family: "Satoshi",          source: "fontshare", slug: "satoshi",          weights: [300,400,500,700,900], styles: ["normal","italic"] },
+  { family: "Cabinet Grotesk",  source: "fontshare", slug: "cabinet-grotesk",  weights: [100,200,300,400,500,700,800,900], styles: ["normal"] },
+  { family: "Clash Display",    source: "fontshare", slug: "clash-display",    weights: [200,300,400,500,600,700],         styles: ["normal"] },
+  { family: "Clash Grotesk",    source: "fontshare", slug: "clash-grotesk",    weights: [200,300,400,500,600,700],         styles: ["normal"] },
+  { family: "General Sans",     source: "fontshare", slug: "general-sans",     weights: [200,300,400,500,600,700],         styles: ["normal","italic"] },
+  { family: "Switzer",          source: "fontshare", slug: "switzer",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"] },
+  { family: "Boska",            source: "fontshare", slug: "boska",            weights: [300,400,500,700,900],             styles: ["normal","italic"] },
+  { family: "Erode",            source: "fontshare", slug: "erode",            weights: [300,400,500,600,700],             styles: ["normal","italic"] },
+  { family: "Tanker",           source: "fontshare", slug: "tanker",           weights: [400],                             styles: ["normal"] },
+  { family: "Stardom",          source: "fontshare", slug: "stardom",          weights: [400],                             styles: ["normal"] },
+  { family: "Synonym",          source: "fontshare", slug: "synonym",          weights: [300,400,500,600,700],             styles: ["normal"] },
+  { family: "Chillax",          source: "fontshare", slug: "chillax",          weights: [200,300,400,500,600,700],         styles: ["normal"] },
+  { family: "Zodiak",           source: "fontshare", slug: "zodiak",           weights: [300,400,500,700,900],             styles: ["normal","italic"] },
+  { family: "Excon",            source: "fontshare", slug: "excon",            weights: [300,400,500,700,900],             styles: ["normal"] },
+  { family: "Ranade",           source: "fontshare", slug: "ranade",           weights: [300,400,500,700],                 styles: ["normal","italic"] },
+  { family: "Sentient",         source: "fontshare", slug: "sentient",         weights: [300,400,500,700,900],             styles: ["normal","italic"] }
 ];
+
+// Бэк-совместимость: старые семейства, которые могут встретиться в проекте, но мы их выкинули из основного каталога ради компактности — оставлены в google-каталоге выше через `family.toLowerCase().replace(/\s+/g, "")`.
 
 // =============================================================
 //  STATE
@@ -569,11 +630,52 @@ async function readZip(arrayBuffer) {
 }
 
 // =============================================================
-//  FONT FETCHING (Fontsource на jsdelivr) + PREVIEW (FontFace API)
+//  FONT FETCHING (multi-source) + PREVIEW (FontFace API)
+//  google    → Fontsource на jsdelivr (детерминированный URL по slug+subset+w+s)
+//  fontshare → CSS API парсит .ttf-урлы (несколько за один запрос)
 // =============================================================
-function fontsourceUrl(slug, subset, weight, style) {
+function googleFontUrl(slug, subset, weight, style) {
   return `https://cdn.jsdelivr.net/fontsource/fonts/${slug}@latest/${subset}-${weight}-${style}.ttf`;
 }
+function subsetFor(cat) {
+  return (cat.subsets && cat.subsets.includes("cyrillic")) ? "cyrillic" : "latin";
+}
+
+const fontshareCssCache = new Map(); // slug → Map<"w__s", ttfUrl>
+async function fontshareResolve(slug, weights) {
+  const cacheKey = slug + ":" + weights.slice().sort((a, b) => a - b).join(",");
+  if (fontshareCssCache.has(cacheKey)) return fontshareCssCache.get(cacheKey);
+  const cssUrl = `https://api.fontshare.com/v2/css?f[]=${slug}@${weights.join(",")}`;
+  console.log("[fonts-plugin] fontshare CSS", cssUrl);
+  const r = await fetch(cssUrl);
+  if (!r.ok) throw new Error(`Fontshare HTTP ${r.status}`);
+  const css = await r.text();
+  const map = new Map();
+  const blocks = css.split("@font-face").slice(1);
+  for (const block of blocks) {
+    const wm = block.match(/font-weight:\s*(\d+)/);
+    const sm = block.match(/font-style:\s*([a-z]+)/i);
+    const um = block.match(/url\s*\(\s*['"]?([^'")\s]+\.ttf)['"]?\s*\)/i);
+    if (wm && um) {
+      const w = +wm[1];
+      const s = (sm && sm[1].toLowerCase() === "italic") ? "italic" : "normal";
+      map.set(`${w}__${s}`, um[1]);
+    }
+  }
+  fontshareCssCache.set(cacheKey, map);
+  return map;
+}
+
+async function resolveCatalogUrl(cat, weight, style) {
+  if (cat.source === "fontshare") {
+    const map = await fontshareResolve(cat.slug, cat.weights);
+    const url = map.get(`${weight}__${style}`);
+    if (!url) throw new Error(`Fontshare ${cat.family}: вариант ${weight}/${style} не найден`);
+    return url;
+  }
+  return googleFontUrl(cat.slug, subsetFor(cat), weight, style);
+}
+
 const fetchCache = new Map(); // url -> Promise<Uint8Array>
 function fetchFont(url) {
   if (fetchCache.has(url)) return fetchCache.get(url);
@@ -634,7 +736,7 @@ function renderProject(term) {
         ? `<span class="badge ok">всё установлено</span>`
         : `<span class="badge miss">не хватает ${f.usedStyles.filter(s => !s.available).length}</span>`;
       const sourceBadge = cat
-        ? `<span class="badge">Google Fonts</span>`
+        ? `<span class="badge">${vendorLabel(cat.source)}</span>`
         : `<span class="badge" style="background:rgba(242,72,34,0.1);color:var(--warn)">нет в каталоге</span>`;
       const used = `<span class="style-meta">${f.usedStyles.length} нач.</span>`;
 
@@ -660,12 +762,12 @@ function renderProject(term) {
 }
 
 function renderProjectStyles(cat, usedStyles) {
-  const subset = cat.subsets.includes("cyrillic") ? "cyrillic" : "latin";
+  const subset = subsetFor(cat);
   const rows = [];
   for (const u of usedStyles) {
     const w = nearestWeight(cat.weights, u.weight);
     const s = cat.styles.includes(u.style) ? u.style : "normal";
-    const url = fontsourceUrl(cat.slug, subset, w, s);
+    const url = cat.source === "google" ? googleFontUrl(cat.slug, subset, w, s) : "";
     const key = selKey(cat.family, w, s);
     const sel = state.selected.has(key);
     const exact = (w === u.weight) && (s === u.style);
@@ -676,7 +778,7 @@ function renderProjectStyles(cat, usedStyles) {
       ? `<span class="badge ok">в ОС</span>`
       : `<span class="badge miss">нужен</span>`;
     rows.push(`
-      <div class="style-row" data-row data-family="${escape(cat.family)}" data-slug="${cat.slug}" data-subset="${subset}" data-weight="${w}" data-style="${s}" data-url="${url}" data-source="catalog">
+      <div class="style-row" data-row data-family="${escape(cat.family)}" data-vendor="${cat.source}" data-slug="${cat.slug}" data-subset="${subset}" data-weight="${w}" data-style="${s}" data-url="${url}" data-source="catalog">
         <label>
           <input type="checkbox" ${sel ? "checked" : ""} />
           <span>${weightLabel(w)} ${s === "italic" ? "Italic" : ""}</span>
@@ -689,6 +791,12 @@ function renderProjectStyles(cat, usedStyles) {
   return rows.join("");
 }
 
+function vendorLabel(source) {
+  if (source === "fontshare") return "Fontshare";
+  if (source === "google") return "Google Fonts";
+  return "Custom";
+}
+
 function renderCatalog(term) {
   const list = state.catalog.filter(c => !term || c.family.toLowerCase().includes(term));
   if (!list.length) { main.innerHTML = `<div class="empty">Ничего не найдено.</div>`; return; }
@@ -697,7 +805,7 @@ function renderCatalog(term) {
       <div class="card-head" data-toggle>
         <span class="chev">▶</span>
         <span class="family-name">${escape(cat.family)}</span>
-        <span class="badge">Google Fonts</span>
+        <span class="badge">${vendorLabel(cat.source)}</span>
         <span class="style-meta">${cat.weights.length}×${cat.styles.length}</span>
       </div>
       <div class="card-body">${renderFullCatalogStyles(cat)}</div>
@@ -705,15 +813,15 @@ function renderCatalog(term) {
 }
 
 function renderFullCatalogStyles(cat) {
-  const subset = cat.subsets.includes("cyrillic") ? "cyrillic" : "latin";
+  const subset = subsetFor(cat);
   const rows = [];
   for (const w of cat.weights) {
     for (const s of cat.styles) {
       const key = selKey(cat.family, w, s);
       const sel = state.selected.has(key);
-      const url = fontsourceUrl(cat.slug, subset, w, s);
+      const url = cat.source === "google" ? googleFontUrl(cat.slug, subset, w, s) : "";
       rows.push(`
-        <div class="style-row" data-row data-family="${escape(cat.family)}" data-slug="${cat.slug}" data-subset="${subset}" data-weight="${w}" data-style="${s}" data-url="${url}" data-source="catalog">
+        <div class="style-row" data-row data-family="${escape(cat.family)}" data-vendor="${cat.source}" data-slug="${cat.slug}" data-subset="${subset}" data-weight="${w}" data-style="${s}" data-url="${url}" data-source="catalog">
           <label>
             <input type="checkbox" ${sel ? "checked" : ""} />
             <span>${weightLabel(w)} ${s === "italic" ? "Italic" : ""}</span>
@@ -789,10 +897,20 @@ async function loadRowPreview(row) {
     const weight = +row.dataset.weight;
     const style = row.dataset.style;
     const source = row.dataset.source;
+    const vendor = row.dataset.vendor;
 
     let bytes;
     if (source === "catalog") {
-      bytes = await fetchFont(row.dataset.url);
+      let url = row.dataset.url;
+      if (!url && vendor === "fontshare") {
+        const cat = STARTER_CATALOG.find(c => c.family === family && c.source === "fontshare");
+        if (cat) {
+          url = await resolveCatalogUrl(cat, weight, style);
+          row.dataset.url = url;
+        }
+      }
+      if (!url) throw new Error("URL не найден");
+      bytes = await fetchFont(url);
     } else {
       // user upload
       const u = state.uploaded.find(x => x.family === family);
@@ -862,17 +980,20 @@ function autoSelectFromScope() {
   for (const f of fonts) {
     const cat = familyMatchesCatalog(f.family);
     if (!cat) continue;
-    const subset = cat.subsets.includes("cyrillic") ? "cyrillic" : "latin";
+    const subset = subsetFor(cat);
     for (const u of f.usedStyles) {
       const w = nearestWeight(cat.weights, u.weight);
       const s = cat.styles.includes(u.style) ? u.style : "normal";
       const key = selKey(cat.family, w, s);
       newAuto.add(key);
       if (!state.userTouched.has(key)) {
-        const url = fontsourceUrl(cat.slug, subset, w, s);
+        const url = cat.source === "google" ? googleFontUrl(cat.slug, subset, w, s) : null;
         state.selected.set(key, {
           family: cat.family, weight: w, style: s,
-          source: "catalog", url, name: null, bytes: null
+          source: "catalog",
+          vendor: cat.source,
+          slug: cat.slug,
+          url, name: null, bytes: null
         });
       }
     }
@@ -910,6 +1031,8 @@ main.addEventListener("click", async (e) => {
       state.selected.set(key, {
         family, weight, style,
         source: row.dataset.source,
+        vendor: row.dataset.vendor || null,
+        slug: row.dataset.slug || null,
         url: row.dataset.url || null,
         name: row.dataset.name || null,
         bytes: row.__bytes || null
@@ -1030,12 +1153,23 @@ async function onDownload() {
       i++;
       setProgress(Math.round((i / state.selected.size) * 90));
       let bytes = item.bytes;
-      if (!bytes && item.url) {
+      let url = item.url;
+      if (!bytes && !url && item.vendor === "fontshare") {
         try {
-          console.log("[fonts-plugin] fetching", item.url);
-          bytes = await fetchFont(item.url);
+          const cat = STARTER_CATALOG.find(c => c.family === item.family && c.source === "fontshare");
+          if (cat) url = await resolveCatalogUrl(cat, item.weight, item.style);
         } catch (err) {
-          console.error("[fonts-plugin] fetch failed", item.url, err);
+          console.error("[fonts-plugin] fontshare resolve failed", item.family, err);
+          failed.push(`${item.family} ${item.weight} ${item.style}: ${err.message || err}`);
+          continue;
+        }
+      }
+      if (!bytes && url) {
+        try {
+          console.log("[fonts-plugin] fetching", url);
+          bytes = await fetchFont(url);
+        } catch (err) {
+          console.error("[fonts-plugin] fetch failed", url, err);
           failed.push(`${item.family} ${item.weight} ${item.style}: ${err.message || err}`);
           continue;
         }

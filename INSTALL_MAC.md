@@ -151,6 +151,15 @@ figma-plugin-fonts/
 Issue на GitHub тоже подойдёт:
 [github.com/ychkydyk/figma-plugin-fonts/issues](https://github.com/ychkydyk/figma-plugin-fonts/issues).
 
+## Источники шрифтов в плагине
+
+| Источник | Что даёт |
+|---|---|
+| **Google Fonts** (через Fontsource на jsdelivr) | ~80 топовых семейств в каталоге: Inter, Roboto, Montserrat, JetBrains Mono, Playfair Display, Bebas Neue, Caveat и др. Кириллица для большинства. |
+| **Fontshare** (Indian Type Foundry) | ~15 дизайнерских семейств бесплатно для коммерции: Satoshi, Cabinet Grotesk, Clash Display, Switzer, Boska, Tanker, Stardom, Erode, Synonym, Chillax и др. |
+| **Bunny Fonts** | Privacy-friendly зеркало Google Fonts (запасной CDN). |
+| **ZIP пользователя** | Любой архив с `.ttf` / `.otf` / `.woff` / `.woff2` — фирменные, платные, вырезанные из пресс-китов. Парсится локально, в сеть не уходит. |
+
 ## Безопасность
 
 Плагин работает только с проверенными доменами (прописано в
@@ -160,6 +169,8 @@ Issue на GitHub тоже подойдёт:
 - `fonts.bunny.net` — зеркало Google Fonts без трекеров
 - `cdn.jsdelivr.net`, `api.fontsource.org` — open-source CDN
   (Fontsource — пакетирует все Google Fonts в `.ttf`)
+- `api.fontshare.com`, `cdn.fontshare.com` — официальный CDN Fontshare
+  (бесплатные шрифты от Indian Type Foundry)
 
 Содержимое твоего Figma-файла никуда не отправляется. ZIP-архивы парсятся
 локально, в сеть не уходят. Никаких npm-зависимостей у плагина нет —

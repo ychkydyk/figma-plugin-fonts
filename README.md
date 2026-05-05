@@ -5,7 +5,7 @@
 
 Сканирует текущий файл Figma, находит используемые шрифты, проверяет, какие
 из них уже установлены в системе, и помогает загрузить недостающие из
-Google Fonts (через open-source CDN Fontsource на jsdelivr) либо из
+проверенных open-source источников (Google Fonts, Fontshare) либо из
 пользовательского ZIP-архива.
 
 Превью каждого начертания, **авто-выбор только нужных весов** (без лишних,
@@ -13,19 +13,43 @@ Google Fonts (через open-source CDN Fontsource на jsdelivr) либо из
 к ручной установке. Кросс-платформенный: работает на Windows и macOS
 одинаково.
 
-## Быстрый старт
+## Установка из git (рекомендуется)
 
 ```bash
 git clone https://github.com/ychkydyk/figma-plugin-fonts.git
+cd figma-plugin-fonts
 ```
 
-Дальше: Figma desktop → `Plugins` → `Development` → `Import plugin from manifest…`
-→ выбери `manifest.json` из склонированной папки.
+Дальше в Figma Desktop:
+
+1. `Plugins` → `Development` → `Import plugin from manifest…`
+2. Выбери `manifest.json` из склонированной папки.
+3. Запуск: <kbd>Ctrl/⌘</kbd>+<kbd>/</kbd> → набери «шрифты».
+
+Обновления:
+
+```bash
+git pull
+```
+
+И сразу запусти плагин — Figma подхватит свежий код с диска.
 
 Подробные инструкции с траблшутингом и установкой шрифтов в систему:
 
 - 🪟 **Windows:** [INSTALL_WIN.md](INSTALL_WIN.md)
 - 🍎 **macOS:** [INSTALL_MAC.md](INSTALL_MAC.md)
+
+## Источники шрифтов
+
+| Источник | Что даёт | Лицензия |
+|---|---|---|
+| **Google Fonts** (через [Fontsource](https://fontsource.org/) на jsdelivr) | ~80 предустановленных популярных семейств в каталоге плагина (Inter, Roboto, Montserrat, JetBrains Mono, Playfair, Bebas Neue и т.д.); полный набор весов и стилей; кириллица для большинства | OFL / Apache 2.0 |
+| **Fontshare** (Indian Type Foundry) | ~15 топовых дизайнерских семейств: Satoshi, Cabinet Grotesk, Clash Display, Switzer, Boska, Tanker, Stardom, Erode и др. | Бесплатно для личного и коммерческого использования |
+| **Bunny Fonts** (зарезервирован) | Privacy-friendly зеркало Google Fonts без трекеров; запасной CDN при недоступности jsdelivr | OFL / Apache 2.0 |
+| **Пользовательский ZIP** | Любые TTF/OTF/WOFF/WOFF2 — фирменные, платные, вырезанные из пресс-китов | по лицензии источника |
+
+Содержимое запросов ограничено `manifest.json.networkAccess.allowedDomains` —
+плагин ходит только в эти 7 доменов, не больше.
 
 ## Связь с разработчиком
 
