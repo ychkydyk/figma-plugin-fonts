@@ -1,0 +1,1179 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>Шрифты проекта</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --bg-soft: #f5f5f5;
+    --bg-card: #fafafa;
+    --border: #e5e5e5;
+    --text: #1a1a1a;
+    --text-soft: #6b6b6b;
+    --accent: #18a0fb;
+    --accent-text: #ffffff;
+    --warn: #f24822;
+    --ok: #14ae5c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #2c2c2c;
+      --bg-soft: #1e1e1e;
+      --bg-card: #383838;
+      --border: #444;
+      --text: #eaeaea;
+      --text-soft: #a0a0a0;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  header {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+    flex-shrink: 0;
+  }
+  .tab {
+    flex: 1;
+    padding: 10px 8px;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-soft);
+    font-weight: 500;
+  }
+  .tab.active {
+    color: var(--text);
+    border-bottom-color: var(--accent);
+    background: var(--bg);
+  }
+  .toolbar {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .toolbar input[type="text"], .toolbar input[type="search"] {
+    flex: 1;
+    min-width: 120px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 12px;
+  }
+  .toolbar input[type="number"] {
+    width: 64px;
+    padding: 6px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text);
+  }
+  button {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 12px;
+  }
+  button:hover { background: var(--bg-card); }
+  button.primary {
+    background: var(--accent);
+    color: var(--accent-text);
+    border-color: var(--accent);
+  }
+  button.primary:hover { filter: brightness(1.05); }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .seg-group {
+    display: inline-flex;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .seg-group .seg {
+    padding: 6px 10px;
+    border: 0;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    background: var(--bg);
+    color: var(--text-soft);
+    font-size: 11px;
+    cursor: pointer;
+  }
+  .seg-group .seg:last-child { border-right: 0; }
+  .seg-group .seg.active { background: var(--accent); color: var(--accent-text); }
+  .seg-group .seg:disabled { opacity: 0.4; cursor: not-allowed; }
+  .scope-info {
+    padding: 6px 12px;
+    font-size: 11px;
+    color: var(--text-soft);
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--border);
+  }
+  main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 12px 80px;
+  }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .card-head {
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .card-head:hover { background: rgba(0,0,0,0.03); }
+  .family-name {
+    flex: 1;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    background: var(--bg-soft);
+    color: var(--text-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge.ok { background: rgba(20,174,92,0.15); color: var(--ok); }
+  .badge.miss { background: rgba(242,72,34,0.15); color: var(--warn); }
+  .badge.user { background: rgba(24,160,251,0.15); color: var(--accent); }
+  .card-body {
+    border-top: 1px solid var(--border);
+    padding: 8px 12px;
+    display: none;
+  }
+  .card.open .card-body { display: block; }
+  .card.open .chev { transform: rotate(90deg); }
+  .chev { transition: transform 0.15s; color: var(--text-soft); }
+  .style-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 4px;
+    border-top: 1px dashed var(--border);
+  }
+  .style-row:first-child { border-top: 0; }
+  .style-row label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+    width: 130px;
+    cursor: pointer;
+  }
+  .style-row input[type="checkbox"] { margin: 0; }
+  .style-meta {
+    font-size: 11px;
+    color: var(--text-soft);
+  }
+  .preview {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 18px;
+    color: var(--text);
+    min-height: 1.2em;
+  }
+  .preview.loading { color: var(--text-soft); font-style: italic; }
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: 10px 12px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .footer-info {
+    flex: 1;
+    color: var(--text-soft);
+    font-size: 12px;
+  }
+  .empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--text-soft);
+  }
+  .drop-zone {
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--text-soft);
+    cursor: pointer;
+  }
+  .drop-zone.drag { border-color: var(--accent); color: var(--accent); }
+  .modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    padding: 20px;
+  }
+  .modal-bg.open { display: flex; }
+  .modal {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 16px 18px;
+    max-width: 460px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .modal h3 { margin: 0 0 8px; font-size: 14px; }
+  .modal p, .modal li { font-size: 12px; color: var(--text); }
+  .modal code {
+    background: var(--bg-soft);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 11px;
+  }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+  .progress-bar {
+    height: 3px;
+    background: var(--bg-soft);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .progress-bar > div {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.2s;
+    width: 0%;
+  }
+  .hidden { display: none !important; }
+  .row-spread { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tab active" data-tab="project">Проект</div>
+  <div class="tab" data-tab="catalog">Каталог</div>
+  <div class="tab" data-tab="upload">ZIP</div>
+</header>
+
+<div class="toolbar">
+  <div class="seg-group" id="scope-group">
+    <button class="seg active" data-scope="document" title="Все шрифты во всех страницах документа">📄 Документ</button>
+    <button class="seg" data-scope="selection" title="Только шрифты в выделенных слоях/фреймах">🎯 Выделение</button>
+  </div>
+  <input type="search" id="search" placeholder="Поиск…" />
+  <input type="text" id="sample" placeholder="Текст превью" value="Съешь же ещё этих мягких французских булок 0123" />
+  <input type="number" id="size" min="10" max="64" value="22" title="Размер превью" />
+  <button id="rescan" title="Пересканировать">↻</button>
+</div>
+
+<div class="scope-info" id="scope-info"></div>
+<div class="progress-bar"><div id="progress"></div></div>
+
+<main id="main">
+  <div class="empty">Сканирую документ…</div>
+</main>
+
+<footer>
+  <div class="footer-info" id="info">Выбрано: 0 начертаний</div>
+  <button id="clear">Сброс</button>
+  <button id="download" class="primary" disabled>Скачать ZIP</button>
+</footer>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3 id="modal-title">Готово</h3>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="primary" id="modal-close">Понятно</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// =============================================================
+//  CATALOG: 50 популярных Google Fonts (slug = id на Fontsource)
+//  URL: https://cdn.jsdelivr.net/fontsource/fonts/<slug>@latest/<subset>-<weight>-<style>.ttf
+// =============================================================
+const STARTER_CATALOG = [
+  { family: "Inter",            slug: "inter",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Roboto",           slug: "roboto",           weights: [100,300,400,500,700,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Roboto Mono",      slug: "roboto-mono",      weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Roboto Condensed", slug: "roboto-condensed", weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Open Sans",        slug: "open-sans",        weights: [300,400,500,600,700,800],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Montserrat",       slug: "montserrat",       weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Poppins",          slug: "poppins",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Lato",             slug: "lato",             weights: [100,300,400,700,900],                 styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Nunito",           slug: "nunito",           weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Nunito Sans",      slug: "nunito-sans",      weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Raleway",          slug: "raleway",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Oswald",           slug: "oswald",           weights: [200,300,400,500,600,700],             styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "PT Sans",          slug: "pt-sans",          weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "PT Serif",         slug: "pt-serif",         weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "PT Mono",          slug: "pt-mono",          weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Source Sans 3",    slug: "source-sans-3",    weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Source Code Pro",  slug: "source-code-pro",  weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Source Serif 4",   slug: "source-serif-4",   weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Manrope",          slug: "manrope",          weights: [200,300,400,500,600,700,800],         styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Rubik",            slug: "rubik",            weights: [300,400,500,600,700,800,900],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "IBM Plex Sans",    slug: "ibm-plex-sans",    weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "IBM Plex Mono",    slug: "ibm-plex-mono",    weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "IBM Plex Serif",   slug: "ibm-plex-serif",   weights: [100,200,300,400,500,600,700],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Work Sans",        slug: "work-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "DM Sans",          slug: "dm-sans",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "DM Mono",          slug: "dm-mono",          weights: [300,400,500],                         styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "DM Serif Display", slug: "dm-serif-display", weights: [400],                                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Fira Sans",        slug: "fira-sans",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Fira Code",        slug: "fira-code",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "JetBrains Mono",   slug: "jetbrains-mono",   weights: [100,200,300,400,500,600,700,800],     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Space Grotesk",    slug: "space-grotesk",    weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Space Mono",       slug: "space-mono",       weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Playfair Display", slug: "playfair-display", weights: [400,500,600,700,800,900],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Merriweather",     slug: "merriweather",     weights: [300,400,700,900],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Lora",             slug: "lora",             weights: [400,500,600,700],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Bitter",           slug: "bitter",           weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Cormorant Garamond", slug: "cormorant-garamond", weights: [300,400,500,600,700],             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "EB Garamond",      slug: "eb-garamond",      weights: [400,500,600,700,800],                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Crimson Pro",      slug: "crimson-pro",      weights: [200,300,400,500,600,700,800,900],     styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Libre Baskerville",slug: "libre-baskerville",weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Libre Franklin",   slug: "libre-franklin",   weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Mulish",           slug: "mulish",           weights: [200,300,400,500,600,700,800,900,1000],styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Karla",            slug: "karla",            weights: [200,300,400,500,600,700,800],         styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Quicksand",        slug: "quicksand",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Comfortaa",        slug: "comfortaa",        weights: [300,400,500,600,700],                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Bebas Neue",       slug: "bebas-neue",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Archivo",          slug: "archivo",          weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Anton",            slug: "anton",            weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Caveat",           slug: "caveat",           weights: [400,500,600,700],                     styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Pacifico",         slug: "pacifico",         weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] }
+];
+
+// =============================================================
+//  STATE
+// =============================================================
+const state = {
+  tab: "project",
+  scope: "document",        // "document" | "selection"
+  scan: {
+    document: [],           // [{family, usedStyles:[{weight,style,figmaStyle,available,count}]}]
+    selection: null,
+    selectionCount: 0,
+    pageName: ""
+  },
+  catalog: STARTER_CATALOG,
+  uploaded: [],
+  search: "",
+  sample: "Съешь же ещё этих мягких французских булок 0123",
+  size: 22,
+  selected: new Map(),       // key "family__weight__style" -> {family, weight, style, source, url?, name?, bytes?}
+  userTouched: new Set(),    // ключи, по которым пользователь снимал/ставил вручную — не пересчитываем авто
+  loadedFontFaces: new Set()
+};
+
+function currentProjectFonts() {
+  if (state.scope === "selection" && state.scan.selection) return state.scan.selection;
+  return state.scan.document;
+}
+function nearestWeight(available, target) {
+  if (!available.length) return target;
+  return available.reduce((best, w) => Math.abs(w - target) < Math.abs(best - target) ? w : best);
+}
+
+// =============================================================
+//  CRC32 + STORE-ZIP WRITER
+// =============================================================
+const CRC_TABLE = (() => {
+  const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) {
+    let c = i;
+    for (let k = 0; k < 8; k++) c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    t[i] = c >>> 0;
+  }
+  return t;
+})();
+function crc32(bytes) {
+  let c = 0xFFFFFFFF;
+  for (let i = 0; i < bytes.length; i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+  return (c ^ 0xFFFFFFFF) >>> 0;
+}
+function dosTime(d) {
+  return ((d.getHours() & 0x1F) << 11) | ((d.getMinutes() & 0x3F) << 5) | ((Math.floor(d.getSeconds() / 2)) & 0x1F);
+}
+function dosDate(d) {
+  return (((d.getFullYear() - 1980) & 0x7F) << 9) | (((d.getMonth() + 1) & 0x0F) << 5) | (d.getDate() & 0x1F);
+}
+// entries: [{name: string, data: Uint8Array}]
+function buildZip(entries) {
+  const enc = new TextEncoder();
+  const now = new Date();
+  const t = dosTime(now), d = dosDate(now);
+  const local = []; const central = []; let offset = 0;
+  for (const e of entries) {
+    const nameBytes = enc.encode(e.name);
+    const crc = crc32(e.data);
+    const size = e.data.length;
+
+    // local file header
+    const lh = new Uint8Array(30 + nameBytes.length);
+    const dvL = new DataView(lh.buffer);
+    dvL.setUint32(0, 0x04034b50, true);
+    dvL.setUint16(4, 20, true);          // version needed
+    dvL.setUint16(6, 0x0800, true);      // gp flag (UTF-8 names)
+    dvL.setUint16(8, 0, true);           // compression = STORE
+    dvL.setUint16(10, t, true);
+    dvL.setUint16(12, d, true);
+    dvL.setUint32(14, crc, true);
+    dvL.setUint32(18, size, true);       // compressed size
+    dvL.setUint32(22, size, true);       // uncompressed size
+    dvL.setUint16(26, nameBytes.length, true);
+    dvL.setUint16(28, 0, true);          // extra
+    lh.set(nameBytes, 30);
+    local.push(lh, e.data);
+
+    // central directory header
+    const ch = new Uint8Array(46 + nameBytes.length);
+    const dvC = new DataView(ch.buffer);
+    dvC.setUint32(0, 0x02014b50, true);
+    dvC.setUint16(4, 20, true);          // version made by
+    dvC.setUint16(6, 20, true);          // version needed
+    dvC.setUint16(8, 0x0800, true);
+    dvC.setUint16(10, 0, true);
+    dvC.setUint16(12, t, true);
+    dvC.setUint16(14, d, true);
+    dvC.setUint32(16, crc, true);
+    dvC.setUint32(20, size, true);
+    dvC.setUint32(24, size, true);
+    dvC.setUint16(28, nameBytes.length, true);
+    dvC.setUint16(30, 0, true);
+    dvC.setUint16(32, 0, true);
+    dvC.setUint16(34, 0, true);
+    dvC.setUint16(36, 0, true);
+    dvC.setUint32(38, 0, true);          // ext attrs
+    dvC.setUint32(42, offset, true);
+    ch.set(nameBytes, 46);
+    central.push(ch);
+
+    offset += lh.length + e.data.length;
+  }
+  const centralStart = offset;
+  let centralSize = 0;
+  for (const c of central) centralSize += c.length;
+
+  const eocd = new Uint8Array(22);
+  const dvE = new DataView(eocd.buffer);
+  dvE.setUint32(0, 0x06054b50, true);
+  dvE.setUint16(8, entries.length, true);
+  dvE.setUint16(10, entries.length, true);
+  dvE.setUint32(12, centralSize, true);
+  dvE.setUint32(16, centralStart, true);
+
+  // склейка
+  const total = centralStart + centralSize + 22;
+  const out = new Uint8Array(total);
+  let p = 0;
+  for (const part of local) { out.set(part, p); p += part.length; }
+  for (const part of central) { out.set(part, p); p += part.length; }
+  out.set(eocd, p);
+  return out;
+}
+
+// =============================================================
+//  ZIP READER (STORE + DEFLATE через DecompressionStream)
+// =============================================================
+async function readZip(arrayBuffer) {
+  const u8 = new Uint8Array(arrayBuffer);
+  const dv = new DataView(u8.buffer);
+
+  // ищем EOCD c конца (последние 65557 байт)
+  const max = Math.max(0, u8.length - 65557);
+  let eocd = -1;
+  for (let i = u8.length - 22; i >= max; i--) {
+    if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error("ZIP: EOCD не найден");
+  const totalEntries = dv.getUint16(eocd + 10, true);
+  const centralSize = dv.getUint32(eocd + 12, true);
+  const centralOffset = dv.getUint32(eocd + 16, true);
+  if (centralOffset + centralSize > u8.length) throw new Error("ZIP: повреждённый central directory");
+
+  const dec = new TextDecoder();
+  const files = [];
+  let p = centralOffset;
+  for (let i = 0; i < totalEntries; i++) {
+    if (dv.getUint32(p, true) !== 0x02014b50) throw new Error("ZIP: bad central header");
+    const compMethod = dv.getUint16(p + 10, true);
+    const compSize = dv.getUint32(p + 20, true);
+    const uncSize = dv.getUint32(p + 24, true);
+    const nameLen = dv.getUint16(p + 28, true);
+    const extraLen = dv.getUint16(p + 30, true);
+    const commentLen = dv.getUint16(p + 32, true);
+    const localOffset = dv.getUint32(p + 42, true);
+    const name = dec.decode(u8.subarray(p + 46, p + 46 + nameLen));
+    p += 46 + nameLen + extraLen + commentLen;
+
+    // local header → пропускаем фиксированную часть + nameLen + extraLen
+    const lhNameLen = dv.getUint16(localOffset + 26, true);
+    const lhExtraLen = dv.getUint16(localOffset + 28, true);
+    const dataStart = localOffset + 30 + lhNameLen + lhExtraLen;
+    const compressed = u8.subarray(dataStart, dataStart + compSize);
+
+    let data;
+    if (compMethod === 0) {
+      data = compressed;
+    } else if (compMethod === 8) {
+      // DEFLATE-raw через DecompressionStream
+      const ds = new DecompressionStream("deflate-raw");
+      const stream = new Blob([compressed]).stream().pipeThrough(ds);
+      const blob = await new Response(stream).blob();
+      data = new Uint8Array(await blob.arrayBuffer());
+    } else {
+      console.warn("ZIP: неподдерживаемый метод компрессии", compMethod, name);
+      continue;
+    }
+    if (data.length !== uncSize) console.warn("ZIP: размер не совпал для", name);
+    files.push({ name, data });
+  }
+  return files;
+}
+
+// =============================================================
+//  FONT FETCHING (Fontsource на jsdelivr) + PREVIEW (FontFace API)
+// =============================================================
+function fontsourceUrl(slug, subset, weight, style) {
+  return `https://cdn.jsdelivr.net/fontsource/fonts/${slug}@latest/${subset}-${weight}-${style}.ttf`;
+}
+const fetchCache = new Map(); // url -> Promise<Uint8Array>
+function fetchFont(url) {
+  if (fetchCache.has(url)) return fetchCache.get(url);
+  const p = fetch(url).then(r => {
+    if (!r.ok) throw new Error(`HTTP ${r.status} для ${url}`);
+    return r.arrayBuffer();
+  }).then(b => new Uint8Array(b));
+  fetchCache.set(url, p);
+  return p;
+}
+
+async function ensureFontFace(family, weight, style, bytes) {
+  const cssFamily = `__pf_${family.replace(/[^a-zA-Z0-9]/g, "_")}_${weight}_${style}`;
+  if (state.loadedFontFaces.has(cssFamily)) return cssFamily;
+  const ff = new FontFace(cssFamily, bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength), { style, weight: String(weight) });
+  await ff.load();
+  document.fonts.add(ff);
+  state.loadedFontFaces.add(cssFamily);
+  return cssFamily;
+}
+
+// =============================================================
+//  RENDER
+// =============================================================
+const $ = (sel) => document.querySelector(sel);
+const main = $("#main");
+
+function selKey(family, weight, style) { return `${family}__${weight}__${style}`; }
+
+function renderTab() {
+  const term = state.search.trim().toLowerCase();
+  if (state.tab === "project") return renderProject(term);
+  if (state.tab === "catalog") return renderCatalog(term);
+  if (state.tab === "upload")  return renderUpload(term);
+}
+
+function familyMatchesCatalog(family) {
+  const norm = family.toLowerCase().replace(/\s+/g, "");
+  return STARTER_CATALOG.find(c => c.family.toLowerCase().replace(/\s+/g, "") === norm);
+}
+
+function renderProject(term) {
+  const fonts = currentProjectFonts();
+  if (!fonts || !fonts.length) {
+    if (state.scope === "selection") {
+      main.innerHTML = `<div class="empty">В выделении нет текстовых слоёв.<br/><br/>Выдели фрейм/группу с текстами и плагин обновится автоматически.</div>`;
+    } else {
+      main.innerHTML = `<div class="empty">В документе не найдено текстовых узлов с шрифтами.</div>`;
+    }
+    return;
+  }
+  const html = fonts
+    .filter(f => !term || f.family.toLowerCase().includes(term))
+    .map(f => {
+      const cat = familyMatchesCatalog(f.family);
+      const allOk = f.usedStyles.every(s => s.available);
+      const headBadge = allOk
+        ? `<span class="badge ok">всё установлено</span>`
+        : `<span class="badge miss">не хватает ${f.usedStyles.filter(s => !s.available).length}</span>`;
+      const sourceBadge = cat
+        ? `<span class="badge">Google Fonts</span>`
+        : `<span class="badge" style="background:rgba(242,72,34,0.1);color:var(--warn)">нет в каталоге</span>`;
+      const used = `<span class="style-meta">${f.usedStyles.length} нач.</span>`;
+
+      const stylesHtml = cat
+        ? renderProjectStyles(cat, f.usedStyles)
+        : `<div class="empty" style="padding:14px;text-align:left">Семейство <b>${escape(f.family)}</b> не найдено в стартовом каталоге Google Fonts.<br/><br/>Загрузи его архивом во вкладке <b>ZIP</b> — после этого начертания подтянутся сюда автоматически.<br/><br/><span class="style-meta">Используется в проекте: ${f.usedStyles.map(s => escape(s.figmaStyle)).join(", ")}</span></div>`;
+
+      return `
+        <div class="card open" data-family="${escape(f.family)}">
+          <div class="card-head" data-toggle>
+            <span class="chev">▶</span>
+            <span class="family-name">${escape(f.family)}</span>
+            ${headBadge}
+            ${sourceBadge}
+            ${used}
+          </div>
+          <div class="card-body">${stylesHtml}</div>
+        </div>`;
+    }).join("");
+  main.innerHTML = html || `<div class="empty">Ничего не найдено по запросу.</div>`;
+  // lazy-prefetch превью для всех видимых строк
+  main.querySelectorAll("[data-row]").forEach(row => loadRowPreview(row));
+}
+
+function renderProjectStyles(cat, usedStyles) {
+  const subset = cat.subsets.includes("cyrillic") ? "cyrillic" : "latin";
+  const rows = [];
+  for (const u of usedStyles) {
+    const w = nearestWeight(cat.weights, u.weight);
+    const s = cat.styles.includes(u.style) ? u.style : "normal";
+    const url = fontsourceUrl(cat.slug, subset, w, s);
+    const key = selKey(cat.family, w, s);
+    const sel = state.selected.has(key);
+    const exact = (w === u.weight) && (s === u.style);
+    const note = exact
+      ? `<span class="style-meta">${escape(u.figmaStyle)}</span>`
+      : `<span class="style-meta" title="В каталоге нет точного веса ${u.weight}, взят ближайший ${w}">${escape(u.figmaStyle)} → ${weightLabel(w)}</span>`;
+    const availBadge = u.available
+      ? `<span class="badge ok">в ОС</span>`
+      : `<span class="badge miss">нужен</span>`;
+    rows.push(`
+      <div class="style-row" data-row data-family="${escape(cat.family)}" data-slug="${cat.slug}" data-subset="${subset}" data-weight="${w}" data-style="${s}" data-url="${url}" data-source="catalog">
+        <label>
+          <input type="checkbox" ${sel ? "checked" : ""} />
+          <span>${weightLabel(w)} ${s === "italic" ? "Italic" : ""}</span>
+        </label>
+        ${availBadge}
+        ${note}
+        <div class="preview loading" data-preview>загружаю превью…</div>
+      </div>`);
+  }
+  return rows.join("");
+}
+
+function renderCatalog(term) {
+  const list = state.catalog.filter(c => !term || c.family.toLowerCase().includes(term));
+  if (!list.length) { main.innerHTML = `<div class="empty">Ничего не найдено.</div>`; return; }
+  main.innerHTML = list.map(cat => `
+    <div class="card" data-family="${escape(cat.family)}">
+      <div class="card-head" data-toggle>
+        <span class="chev">▶</span>
+        <span class="family-name">${escape(cat.family)}</span>
+        <span class="badge">Google Fonts</span>
+        <span class="style-meta">${cat.weights.length}×${cat.styles.length}</span>
+      </div>
+      <div class="card-body">${renderFullCatalogStyles(cat)}</div>
+    </div>`).join("");
+}
+
+function renderFullCatalogStyles(cat) {
+  const subset = cat.subsets.includes("cyrillic") ? "cyrillic" : "latin";
+  const rows = [];
+  for (const w of cat.weights) {
+    for (const s of cat.styles) {
+      const key = selKey(cat.family, w, s);
+      const sel = state.selected.has(key);
+      const url = fontsourceUrl(cat.slug, subset, w, s);
+      rows.push(`
+        <div class="style-row" data-row data-family="${escape(cat.family)}" data-slug="${cat.slug}" data-subset="${subset}" data-weight="${w}" data-style="${s}" data-url="${url}" data-source="catalog">
+          <label>
+            <input type="checkbox" ${sel ? "checked" : ""} />
+            <span>${weightLabel(w)} ${s === "italic" ? "Italic" : ""}</span>
+          </label>
+          <div class="preview loading" data-preview>загружаю превью…</div>
+        </div>`);
+    }
+  }
+  return rows.join("");
+}
+
+function renderUpload(term) {
+  const dz = `
+    <div class="drop-zone" id="drop">
+      Перетащи сюда ZIP / TTF / OTF
+      <br/><span class="style-meta">или нажми для выбора файла</span>
+      <input type="file" id="file-input" multiple accept=".zip,.ttf,.otf,.woff,.woff2" style="display:none" />
+    </div>`;
+  if (!state.uploaded.length) { main.innerHTML = dz; bindDrop(); return; }
+  const html = state.uploaded
+    .filter(u => !term || u.family.toLowerCase().includes(term))
+    .map(u => `
+      <div class="card open">
+        <div class="card-head" data-toggle>
+          <span class="chev">▶</span>
+          <span class="family-name">${escape(u.family)}</span>
+          <span class="badge user">из ZIP</span>
+          <span class="style-meta">${u.styles.length} файлов</span>
+        </div>
+        <div class="card-body">${u.styles.map(s => {
+          const key = selKey(u.family, s.weight, s.style);
+          const sel = state.selected.has(key);
+          return `
+            <div class="style-row" data-row data-family="${escape(u.family)}" data-weight="${s.weight}" data-style="${s.style}" data-source="user" data-name="${escape(s.name)}">
+              <label>
+                <input type="checkbox" ${sel ? "checked" : ""} />
+                <span>${weightLabel(s.weight)} ${s.style === "italic" ? "Italic" : ""}</span>
+              </label>
+              <span class="style-meta">${escape(s.name)}</span>
+              <div class="preview loading" data-preview>загружаю превью…</div>
+            </div>`;
+        }).join("")}</div>
+      </div>`).join("");
+  main.innerHTML = (html || `<div class="empty">Ничего не найдено по запросу.</div>`) + dz;
+  bindDrop();
+}
+
+function weightLabel(w) {
+  const m = { 100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 500: "Medium", 600: "SemiBold", 700: "Bold", 800: "ExtraBold", 900: "Black", 1000: "ExtraBlack" };
+  return m[w] || String(w);
+}
+function parseStyle(figmaStyle) {
+  // Figma style: "Bold", "Bold Italic", "Light", "300", "300 Italic", "Italic"
+  const lower = figmaStyle.toLowerCase();
+  const italic = lower.includes("italic") || lower.includes("oblique");
+  let weight = 400;
+  const map = { thin: 100, hairline: 100, extralight: 200, ultralight: 200, light: 300, regular: 400, normal: 400, book: 400, medium: 500, semibold: 600, demibold: 600, bold: 700, extrabold: 800, ultrabold: 800, black: 900, heavy: 900 };
+  for (const k of Object.keys(map)) if (lower.replace(/\s+/g, "").includes(k)) { weight = map[k]; break; }
+  const num = lower.match(/\b(\d{3,4})\b/);
+  if (num) weight = +num[1];
+  return { weight, style: italic ? "italic" : "normal" };
+}
+function escape(s) { return String(s).replace(/[<>&"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"})[c]); }
+
+// =============================================================
+//  PREVIEW LOADER (lazy, при раскрытии card)
+// =============================================================
+async function loadRowPreview(row) {
+  const prev = row.querySelector("[data-preview]");
+  if (!prev || !prev.classList.contains("loading")) return;
+  try {
+    const family = row.dataset.family;
+    const weight = +row.dataset.weight;
+    const style = row.dataset.style;
+    const source = row.dataset.source;
+
+    let bytes;
+    if (source === "catalog") {
+      bytes = await fetchFont(row.dataset.url);
+    } else {
+      // user upload
+      const u = state.uploaded.find(x => x.family === family);
+      const s = u && u.styles.find(s => s.weight === weight && s.style === style);
+      if (!s) return;
+      bytes = s.bytes;
+    }
+    const cssFam = await ensureFontFace(family, weight, style, bytes);
+    prev.style.fontFamily = `'${cssFam}', sans-serif`;
+    prev.style.fontWeight = String(weight);
+    prev.style.fontStyle = style;
+    prev.style.fontSize = state.size + "px";
+    prev.textContent = state.sample;
+    prev.classList.remove("loading");
+    // запомним bytes для скачивания
+    row.__bytes = bytes;
+  } catch (e) {
+    prev.textContent = "не удалось загрузить (" + (e.message || e) + ")";
+    prev.style.color = "var(--warn)";
+    prev.classList.remove("loading");
+  }
+}
+
+// =============================================================
+//  EVENT BINDING
+// =============================================================
+document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
+  state.tab = tab.dataset.tab;
+  renderTab();
+}));
+
+document.querySelectorAll("#scope-group .seg").forEach(btn => btn.addEventListener("click", () => {
+  if (btn.disabled) return;
+  document.querySelectorAll("#scope-group .seg").forEach(b => b.classList.toggle("active", b === btn));
+  state.scope = btn.dataset.scope;
+  state.userTouched.clear();
+  autoSelectFromScope();
+  renderTab();
+  updateScopeInfo();
+}));
+
+function updateScopeInfo() {
+  const info = $("#scope-info");
+  const fonts = currentProjectFonts() || [];
+  const totalStyles = fonts.reduce((acc, f) => acc + f.usedStyles.length, 0);
+  const missing = fonts.reduce((acc, f) => acc + f.usedStyles.filter(s => !s.available).length, 0);
+  if (state.scope === "selection") {
+    if (state.scan.selectionCount === 0) {
+      info.textContent = "Выделение пустое. Выдели фрейм/группу с текстами — плагин обновится автоматически.";
+    } else {
+      info.textContent = `В выделении (${state.scan.selectionCount} слой(-ёв)) на странице «${state.scan.pageName}»: ${fonts.length} семейств, ${totalStyles} начертаний (не хватает в ОС: ${missing}).`;
+    }
+  } else {
+    info.textContent = `Во всём документе: ${fonts.length} семейств, ${totalStyles} начертаний (не хватает в ОС: ${missing}).`;
+  }
+  // disable selection кнопку, если ничего не выделено
+  const selBtn = document.querySelector('#scope-group .seg[data-scope="selection"]');
+  if (selBtn) selBtn.disabled = state.scan.selectionCount === 0;
+}
+
+function autoSelectFromScope() {
+  // Сбрасываем только то, что НЕ трогал пользователь, и переустанавливаем по текущему scope.
+  // Если юзер вручную снимал/добавлял — оставляем его выбор.
+  const fonts = currentProjectFonts() || [];
+  const newAuto = new Set();
+  for (const f of fonts) {
+    const cat = familyMatchesCatalog(f.family);
+    if (!cat) continue;
+    const subset = cat.subsets.includes("cyrillic") ? "cyrillic" : "latin";
+    for (const u of f.usedStyles) {
+      const w = nearestWeight(cat.weights, u.weight);
+      const s = cat.styles.includes(u.style) ? u.style : "normal";
+      const key = selKey(cat.family, w, s);
+      newAuto.add(key);
+      if (!state.userTouched.has(key)) {
+        const url = fontsourceUrl(cat.slug, subset, w, s);
+        state.selected.set(key, {
+          family: cat.family, weight: w, style: s,
+          source: "catalog", url, name: null, bytes: null
+        });
+      }
+    }
+  }
+  // Удаляем авто-добавленные элементы, которые больше не нужны (юзер не трогал)
+  for (const key of [...state.selected.keys()]) {
+    if (!newAuto.has(key) && !state.userTouched.has(key)) {
+      state.selected.delete(key);
+    }
+  }
+  updateFooter();
+}
+
+main.addEventListener("click", async (e) => {
+  const head = e.target.closest("[data-toggle]");
+  if (head) {
+    const card = head.parentElement;
+    card.classList.toggle("open");
+    if (card.classList.contains("open")) {
+      // lazy-load превью для всех строк
+      card.querySelectorAll("[data-row]").forEach(row => loadRowPreview(row));
+    }
+    return;
+  }
+  const cb = e.target.closest('input[type="checkbox"]');
+  if (cb) {
+    const row = cb.closest("[data-row]");
+    if (!row) return;
+    const family = row.dataset.family;
+    const weight = +row.dataset.weight;
+    const style = row.dataset.style;
+    const key = selKey(family, weight, style);
+    state.userTouched.add(key); // юзер вручную поменял — не трогать при авто-пересчёте
+    if (cb.checked) {
+      state.selected.set(key, {
+        family, weight, style,
+        source: row.dataset.source,
+        url: row.dataset.url || null,
+        name: row.dataset.name || null,
+        bytes: row.__bytes || null
+      });
+    } else {
+      state.selected.delete(key);
+    }
+    updateFooter();
+  }
+});
+
+$("#search").addEventListener("input", (e) => { state.search = e.target.value; renderTab(); });
+$("#sample").addEventListener("input", (e) => {
+  state.sample = e.target.value;
+  document.querySelectorAll("[data-preview]").forEach(p => { if (!p.classList.contains("loading")) p.textContent = state.sample; });
+});
+$("#size").addEventListener("input", (e) => {
+  state.size = +e.target.value || 22;
+  document.querySelectorAll("[data-preview]").forEach(p => { p.style.fontSize = state.size + "px"; });
+});
+$("#rescan").addEventListener("click", () => parent.postMessage({ pluginMessage: { type: "scan" } }, "*"));
+$("#clear").addEventListener("click", () => { state.selected.clear(); document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false); updateFooter(); });
+$("#download").addEventListener("click", onDownload);
+$("#modal-close").addEventListener("click", () => $("#modal-bg").classList.remove("open"));
+
+function bindDrop() {
+  const dz = $("#drop"); if (!dz) return;
+  const fi = $("#file-input");
+  dz.addEventListener("click", () => fi.click());
+  dz.addEventListener("dragover", e => { e.preventDefault(); dz.classList.add("drag"); });
+  dz.addEventListener("dragleave", () => dz.classList.remove("drag"));
+  dz.addEventListener("drop", async e => {
+    e.preventDefault(); dz.classList.remove("drag");
+    await handleFiles([...e.dataTransfer.files]);
+  });
+  fi.addEventListener("change", async e => { await handleFiles([...e.target.files]); fi.value = ""; });
+}
+
+async function handleFiles(files) {
+  setProgress(5);
+  for (const file of files) {
+    try {
+      if (file.name.toLowerCase().endsWith(".zip")) {
+        const buf = await file.arrayBuffer();
+        const entries = await readZip(buf);
+        ingestUserFonts(entries.filter(e => /\.(ttf|otf|woff2?|TTF|OTF|WOFF2?)$/.test(e.name) && !e.name.endsWith("/")));
+      } else if (/\.(ttf|otf|woff2?)$/i.test(file.name)) {
+        const bytes = new Uint8Array(await file.arrayBuffer());
+        ingestUserFonts([{ name: file.name, data: bytes }]);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Ошибка обработки " + file.name + ": " + err.message);
+    }
+  }
+  setProgress(0);
+  renderTab();
+}
+
+function ingestUserFonts(entries) {
+  for (const e of entries) {
+    const meta = parseFontFilename(e.name);
+    let u = state.uploaded.find(x => x.family.toLowerCase() === meta.family.toLowerCase());
+    if (!u) { u = { family: meta.family, slug: "_user", styles: [], source: "user" }; state.uploaded.push(u); }
+    if (!u.styles.find(s => s.weight === meta.weight && s.style === meta.style)) {
+      u.styles.push({ weight: meta.weight, style: meta.style, name: e.name.split("/").pop(), bytes: e.data });
+    }
+  }
+}
+
+function parseFontFilename(path) {
+  const base = path.split("/").pop().replace(/\.(ttf|otf|woff2?)$/i, "");
+  const lower = base.toLowerCase();
+  const italic = /italic|oblique/.test(lower);
+  const map = { thin: 100, hairline: 100, extralight: 200, ultralight: 200, light: 300, regular: 400, normal: 400, book: 400, medium: 500, semibold: 600, demibold: 600, bold: 700, extrabold: 800, ultrabold: 800, black: 900, heavy: 900 };
+  let weight = 400;
+  for (const k of Object.keys(map)) if (lower.includes(k)) { weight = map[k]; break; }
+  const num = lower.match(/(\d{3,4})/); if (num) weight = +num[1];
+  // family — отрезаем хвост с весами/курсивом
+  const family = base
+    .replace(/[-_ ]?(Thin|ExtraLight|UltraLight|Light|Regular|Normal|Book|Medium|SemiBold|DemiBold|Bold|ExtraBold|UltraBold|Black|Heavy)/gi, "")
+    .replace(/[-_ ]?(Italic|Oblique)/gi, "")
+    .replace(/[-_ ]?\d{3,4}/g, "")
+    .replace(/[-_]+$/, "")
+    .replace(/[-_]/g, " ")
+    .trim() || base;
+  return { family, weight, style: italic ? "italic" : "normal" };
+}
+
+function updateFooter() {
+  const n = state.selected.size;
+  $("#info").textContent = `Выбрано: ${n} начертан${n === 1 ? "ие" : (n >= 2 && n <= 4 ? "ия" : "ий")}`;
+  $("#download").disabled = n === 0;
+}
+
+function setProgress(pct) {
+  $("#progress").style.width = pct + "%";
+}
+
+// =============================================================
+//  DOWNLOAD ZIP
+// =============================================================
+async function onDownload() {
+  console.log("[fonts-plugin] onDownload start; selected:", state.selected.size);
+  if (!state.selected.size) {
+    alert("Ничего не выбрано. Поставь чекбоксы напротив нужных начертаний.");
+    return;
+  }
+  const btn = $("#download");
+  btn.disabled = true;
+  setProgress(2);
+
+  const entries = [];
+  const failed = [];
+  let i = 0;
+  try {
+    for (const [, item] of state.selected) {
+      i++;
+      setProgress(Math.round((i / state.selected.size) * 90));
+      let bytes = item.bytes;
+      if (!bytes && item.url) {
+        try {
+          console.log("[fonts-plugin] fetching", item.url);
+          bytes = await fetchFont(item.url);
+        } catch (err) {
+          console.error("[fonts-plugin] fetch failed", item.url, err);
+          failed.push(`${item.family} ${item.weight} ${item.style}: ${err.message || err}`);
+          continue;
+        }
+      }
+      if (!bytes) { failed.push(`${item.family} ${item.weight} ${item.style}: нет данных`); continue; }
+      const safeFam = item.family.replace(/[^\w\-А-Яа-яЁё ]/g, "").replace(/\s+/g, "");
+      const ext = item.source === "user" && item.name && /\.(otf|woff2?)$/i.test(item.name)
+        ? item.name.match(/\.(otf|woff2?)$/i)[0]
+        : ".ttf";
+      const fname = `${safeFam}/${safeFam}-${item.weight}${item.style === "italic" ? "Italic" : ""}${ext}`;
+      entries.push({ name: fname, data: bytes });
+    }
+    console.log("[fonts-plugin] fetched", entries.length, "of", state.selected.size, "; failed:", failed.length);
+
+    if (!entries.length) {
+      setProgress(0); btn.disabled = false;
+      alert("Не удалось получить ни одного шрифта.\n\n" + failed.slice(0, 5).join("\n"));
+      return;
+    }
+
+    const zip = buildZip(entries);
+    console.log("[fonts-plugin] zip size:", zip.length, "bytes");
+    setProgress(95);
+    const blob = new Blob([zip], { type: "application/zip" });
+    const url = URL.createObjectURL(blob);
+    const filename = `project-fonts-${new Date().toISOString().slice(0,10)}.zip`;
+
+    // Основной путь: создаём якорь и кликаем.
+    let triggered = false;
+    try {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.style.display = "none";
+      document.body.appendChild(a);
+      a.click();
+      triggered = true;
+      setTimeout(() => { try { a.remove(); } catch (_) {} }, 2000);
+    } catch (err) {
+      console.error("[fonts-plugin] anchor download failed", err);
+    }
+
+    setProgress(100);
+    setTimeout(() => setProgress(0), 600);
+
+    showInstallHint(entries.length, { url, filename, failed, triggered });
+    btn.disabled = false;
+    parent.postMessage({ pluginMessage: { type: "notify", text: `ZIP со ${entries.length} начертаниями ${triggered ? "скачан" : "готов — нажми ссылку в окне"}.` } }, "*");
+  } catch (e) {
+    console.error("[fonts-plugin] onDownload error", e);
+    setProgress(0);
+    btn.disabled = false;
+    alert("Ошибка при сборке ZIP:\n" + (e && e.message || e));
+  }
+}
+
+// =============================================================
+//  OS-AWARE INSTALL HINT
+// =============================================================
+function detectOS() {
+  const ua = navigator.userAgent || "";
+  const plat = navigator.platform || "";
+  if (/Mac|iPhone|iPad/.test(ua) || /Mac/.test(plat)) return "mac";
+  if (/Win/.test(ua) || /Win/.test(plat)) return "win";
+  return "other";
+}
+function showInstallHint(n, info) {
+  info = info || {};
+  const os = detectOS();
+  const fallback = info.url
+    ? `<p style="margin-top:10px;padding:10px;background:var(--bg-soft);border-radius:6px"><b>Если файл не появился в Загрузках</b> — Figma могла заблокировать авто-скачивание из песочницы. Жми эту ссылку:<br/><a href="${info.url}" download="${info.filename}" target="_blank" rel="noopener" style="color:var(--accent);font-weight:600">⬇ ${info.filename}</a></p>`
+    : "";
+  const failedHtml = info.failed && info.failed.length
+    ? `<details style="margin-top:8px"><summary style="cursor:pointer;color:var(--warn)">Не удалось получить ${info.failed.length} файл(ов)</summary><ul style="margin:6px 0 0 18px;font-size:11px">${info.failed.slice(0, 10).map(x => `<li>${escape(x)}</li>`).join("")}</ul></details>`
+    : "";
+  let body = "";
+  if (os === "win") {
+    body = `
+      <p>ZIP со <b>${n}</b> файлами шрифтов ${info.triggered ? "скачан в папку загрузок" : "готов к скачиванию"}.</p>
+      ${fallback}
+      <ol>
+        <li>Распакуй архив.</li>
+        <li>Выдели все файлы → ПКМ → <b>«Установить»</b> (для текущего пользователя — без админа) или <b>«Установить для всех пользователей»</b>.</li>
+        <li>Альтернатива: скопируй в <code>%LOCALAPPDATA%\\Microsoft\\Windows\\Fonts</code>.</li>
+        <li><b>Перезапусти Figma desktop</b> — иначе новые шрифты не подтянутся.</li>
+      </ol>
+      ${failedHtml}`;
+  } else if (os === "mac") {
+    body = `
+      <p>ZIP со <b>${n}</b> файлами шрифтов ${info.triggered ? "скачан в <code>~/Downloads</code>" : "готов к скачиванию"}.</p>
+      ${fallback}
+      <ol>
+        <li>Распакуй архив (двойной клик).</li>
+        <li>Выдели все <code>.ttf</code> → <b>двойной клик</b> → в Книге шрифтов нажми «Установить шрифт». Или просто перетащи всё в окно Книги шрифтов.</li>
+        <li>Альтернатива (быстрее): перетащи все файлы в <code>~/Library/Fonts/</code>.</li>
+        <li><b>Перезапусти Figma desktop</b> (Cmd+Q, открой заново) — иначе новые шрифты не появятся в списке.</li>
+      </ol>
+      ${failedHtml}`;
+  } else {
+    body = `<p>ZIP со <b>${n}</b> файлами ${info.triggered ? "скачан" : "готов"}. Установи шрифты средствами своей ОС и перезапусти Figma.</p>${fallback}${failedHtml}`;
+  }
+  $("#modal-title").textContent = info.triggered ? "Скачано — что дальше" : "ZIP готов";
+  $("#modal-body").innerHTML = body;
+  $("#modal-bg").classList.add("open");
+}
+
+// =============================================================
+//  PLUGIN MESSAGES (from code.js)
+// =============================================================
+window.onmessage = (e) => {
+  const msg = e.data && e.data.pluginMessage;
+  if (!msg) return;
+  if (msg.type === "scan-result") {
+    state.scan.document = msg.document || [];
+    state.scan.selection = msg.selection || null;
+    state.scan.selectionCount = msg.selectionCount || 0;
+    state.scan.pageName = msg.pageName || "";
+    // первый автозапуск: если есть выделение — переключаемся на него.
+    if (!state._initialized) {
+      state._initialized = true;
+      if (state.scan.selectionCount > 0 && state.scan.selection) {
+        state.scope = "selection";
+        document.querySelectorAll("#scope-group .seg").forEach(b =>
+          b.classList.toggle("active", b.dataset.scope === "selection"));
+      }
+    }
+    autoSelectFromScope();
+    updateScopeInfo();
+    renderTab();
+  } else if (msg.type === "scan-error") {
+    main.innerHTML = `<div class="empty" style="color:var(--warn)">Ошибка скана: ${escape(msg.error)}</div>`;
+  }
+};
+
+// init
+parent.postMessage({ pluginMessage: { type: "scan" } }, "*");
+updateFooter();
+updateScopeInfo();
+</script>
+</body>
+</html>
