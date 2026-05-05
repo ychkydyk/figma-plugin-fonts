@@ -1,4 +1,4 @@
-# Установка плагина «Шрифты проекта» — macOS
+# Установка плагина «Шрифты проекта» — Windows
 
 Плагин для Figma: сканирует файл, находит используемые шрифты, помогает
 загрузить недостающие из Google Fonts или из ZIP-архива, превью
@@ -6,7 +6,6 @@
 
 **Репозиторий:** https://github.com/ychkydyk/figma-plugin-fonts
 **Связь с разработчиком:** Telegram [@mantunamochil](https://t.me/mantunamochil)
-**Для Windows:** см. [INSTALL_WIN.md](INSTALL_WIN.md)
 
 ## 1. Получи код плагина
 
@@ -14,20 +13,20 @@
 
 ### Вариант А — git clone (рекомендуется для обновлений)
 
-В Терминале:
+Если ещё нет git — поставь [Git for Windows](https://git-scm.com/download/win)
+(стандартные настройки) или [GitHub Desktop](https://desktop.github.com/).
 
-```bash
-cd ~/Documents
+Через PowerShell:
+
+```powershell
+cd $env:USERPROFILE\Documents
 git clone https://github.com/ychkydyk/figma-plugin-fonts.git
 cd figma-plugin-fonts
 ```
 
-Если `git` ещё не установлен на маке — Терминал сам предложит поставить
-Command Line Tools при первой попытке (одна кнопка «Install»).
-
 Обновление в будущем — одна команда из той же папки:
 
-```bash
+```powershell
 git pull
 ```
 
@@ -38,27 +37,28 @@ git pull
 
 1. Открой https://github.com/ychkydyk/figma-plugin-fonts
 2. Зелёная кнопка **`Code`** → **`Download ZIP`**
-3. Распакуй `figma-plugin-fonts-main.zip` в `~/Documents/figma-plugin-fonts/`
+3. Распакуй `figma-plugin-fonts-main.zip` в, например,
+   `C:\Users\<твоё_имя>\Documents\figma-plugin-fonts\`
 
-Или: получи `figma-plugin-fonts.zip` напрямую (AirDrop / Telegram /
-почта) и распакуй в ту же папку.
+Или: получи `figma-plugin-fonts.zip` напрямую (Telegram / почта /
+USB-флешка) и распакуй в ту же папку.
 
-> ⚠️ **Не оставляй папку в `~/Downloads/`** — после очистки загрузок
+> ⚠️ **Не оставляй папку в `Downloads\`** — после очистки загрузок
 > Figma потеряет ссылку на плагин и его придётся импортировать заново.
 
 После распаковки внутри должны лежать:
 
 ```
-figma-plugin-fonts/
+figma-plugin-fonts\
 ├── manifest.json     ← это будем импортировать в Figma
 ├── code.js
 ├── ui.html
 ├── README.md
-├── INSTALL_MAC.md    ← этот файл
-├── INSTALL_WIN.md    ← инструкция для Windows
-├── LICENSE           ← MIT
-├── docs/
-└── companion/
+├── INSTALL_WIN.md    ← этот файл
+├── INSTALL_MAC.md
+├── LICENSE
+├── docs\
+└── companion\
 ```
 
 ## 2. Открой Figma Desktop
@@ -75,9 +75,10 @@ figma-plugin-fonts/
 
 Два способа, любой:
 
-**A) Через системное меню в шапке экрана**
+**A) Через бургер-меню в шапке окна Figma**
 
-`Plugins` → `Development` → `Import plugin from manifest…`
+Иконка ☰ в левом верхнем углу окна → `Plugins` → `Development` →
+`Import plugin from manifest…`
 
 **B) Правый клик на канвасе**
 
@@ -92,8 +93,8 @@ figma-plugin-fonts/
 
 | Способ | Как |
 |---|---|
-| Quick-search | <kbd>⌘</kbd> + <kbd>/</kbd> → набери `шрифты` → <kbd>↩</kbd> |
-| Меню | `Plugins` → `Development` → `Шрифты проекта — загрузка и предпросмотр` |
+| Quick-search | <kbd>Ctrl</kbd> + <kbd>/</kbd> → набери `шрифты` → <kbd>Enter</kbd> |
+| Меню | ☰ → `Plugins` → `Development` → `Шрифты проекта — загрузка и предпросмотр` |
 | Канвас | ПКМ на канвасе → `Plugins` → `Development` → `Шрифты проекта…` |
 
 ## 5. Использование
@@ -115,33 +116,39 @@ figma-plugin-fonts/
    (или россыпью `.ttf`/`.otf`/`.woff`/`.woff2`).
 
 6. **Кнопка «Скачать ZIP»** внизу — соберёт все выбранные начертания в
-   один архив и сохранит в `~/Downloads/`.
+   один архив и сохранит в `Downloads\`.
 
 ## 6. Установка шрифтов в систему
 
 После скачивания ZIP появится модалка с пошаговой инструкцией. Кратко
-для macOS:
+для Windows:
 
-1. Распакуй `project-fonts-YYYY-MM-DD.zip` (двойной клик).
-2. Выдели все `.ttf` файлы → перетащи их в окно **Книги шрифтов**
-   (Font Book) — система установит сразу все.
-   - Альтернатива: двойной клик по любому `.ttf` → в открывшейся
-     Книге шрифтов нажми «Установить шрифт».
-   - Или (быстрее): перетащи все файлы в `~/Library/Fonts/` через
-     Finder (показать скрытые папки: <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>.</kbd>).
-3. **Перезапусти Figma Desktop:** <kbd>⌘</kbd>+<kbd>Q</kbd>, открой заново.
-   Без рестарта новые шрифты в Figma не появятся.
+1. Распакуй `project-fonts-YYYY-MM-DD.zip` (ПКМ → «Извлечь всё»).
+2. Выдели все `.ttf` файлы → ПКМ → **«Установить»** — установка для
+   текущего пользователя, **без админских прав**.
+   - Для всех пользователей: ПКМ → **«Установить для всех пользователей»**
+     (потребует подтверждения UAC).
+3. Альтернатива (быстрее, без диалогов): просто скопируй все файлы в
+
+   ```
+   %LOCALAPPDATA%\Microsoft\Windows\Fonts
+   ```
+
+   Эта папка не требует админских прав, шрифты регистрируются автоматически.
+4. **Перезапусти Figma Desktop:** закрой через системный трей и открой
+   заново. Без рестарта новые шрифты в Figma не появятся.
 
 ## Если что-то пошло не так
 
 | Проблема | Что проверить |
 |---|---|
-| После импорта плагин не виден в списке | Перезапусти Figma полностью (<kbd>⌘</kbd>+<kbd>Q</kbd>). Иногда после первого импорта плагин появляется только после рестарта. |
+| После импорта плагин не виден в списке | Перезапусти Figma полностью (через системный трей или Task Manager). Иногда после первого импорта плагин появляется только после рестарта. |
 | Меню «Development» отсутствует | Открой любой файл — без открытого файла этого подменю нет. |
-| `This plugin requires a newer version of Figma` | Обнови Figma Desktop через `Figma` → `Check for updates`. |
-| Что-то падает при запуске | `Plugins` → `Development` → `Open Console`. Текст ошибки пришли в чат. |
+| `This plugin requires a newer version of Figma` | Обнови Figma Desktop через ☰ → `Help` → `Check for updates`. |
+| Что-то падает при запуске | ☰ → `Plugins` → `Development` → `Open Console`. Текст ошибки пришли в чат. |
 | Не качается ZIP | В модалке после нажатия «Скачать ZIP» есть резервная ссылка ⬇ — кликни по ней. |
-| Шрифты после установки не появились в Figma | Полный рестарт Figma (<kbd>⌘</kbd>+<kbd>Q</kbd>). Web-вкладку Figma тоже нужно перезагрузить. |
+| Шрифты после установки не появились в Figma | Полный рестарт Figma. Web-вкладку Figma тоже нужно перезагрузить. |
+| `git: command not found` | Поставь [Git for Windows](https://git-scm.com/download/win) или используй Вариант Б (ZIP). |
 
 ## Связь с разработчиком
 

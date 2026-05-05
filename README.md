@@ -22,7 +22,15 @@ git clone https://github.com/ychkydyk/figma-plugin-fonts.git
 Дальше: Figma desktop → `Plugins` → `Development` → `Import plugin from manifest…`
 → выбери `manifest.json` из склонированной папки.
 
-Подробная инструкция для macOS: [INSTALL_MAC.md](INSTALL_MAC.md).
+Подробные инструкции с траблшутингом и установкой шрифтов в систему:
+
+- 🪟 **Windows:** [INSTALL_WIN.md](INSTALL_WIN.md)
+- 🍎 **macOS:** [INSTALL_MAC.md](INSTALL_MAC.md)
+
+## Связь с разработчиком
+
+- Telegram: [@mantunamochil](https://t.me/mantunamochil)
+- GitHub Issues: [ychkydyk/figma-plugin-fonts/issues](https://github.com/ychkydyk/figma-plugin-fonts/issues)
 
 ## Установка плагина
 
