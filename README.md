@@ -1,13 +1,28 @@
 # Шрифты проекта — плагин Figma
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-ychkydyk%2Ffigma--plugin--fonts-181717?logo=github)](https://github.com/ychkydyk/figma-plugin-fonts)
+
 Сканирует текущий файл Figma, находит используемые шрифты, проверяет, какие
 из них уже установлены в системе, и помогает загрузить недостающие из
 Google Fonts (через open-source CDN Fontsource на jsdelivr) либо из
 пользовательского ZIP-архива.
 
-Превью каждого начертания, выбор нужных весов / стилей, итог — один ZIP
-с файлами `.ttf`, готовый к ручной установке. Кросс-платформенный:
-работает на Windows и macOS одинаково.
+Превью каждого начертания, **авто-выбор только нужных весов** (без лишних,
+с возможностью снять чекбоксы), итог — один ZIP с файлами `.ttf`, готовый
+к ручной установке. Кросс-платформенный: работает на Windows и macOS
+одинаково.
+
+## Быстрый старт
+
+```bash
+git clone https://github.com/ychkydyk/figma-plugin-fonts.git
+```
+
+Дальше: Figma desktop → `Plugins` → `Development` → `Import plugin from manifest…`
+→ выбери `manifest.json` из склонированной папки.
+
+Подробная инструкция для macOS: [INSTALL_MAC.md](INSTALL_MAC.md).
 
 ## Установка плагина
 

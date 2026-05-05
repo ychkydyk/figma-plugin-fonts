@@ -4,14 +4,42 @@
 загрузить недостающие из Google Fonts или из ZIP-архива, превью
 начертаний, сборка одного ZIP для установки.
 
-## 1. Распакуй архив
+**Репозиторий:** https://github.com/ychkydyk/figma-plugin-fonts
 
-Получил `figma-plugin-fonts.zip`. Распакуй его в любую постоянную папку,
-например:
+## 1. Получи код плагина
 
+Два варианта на выбор.
+
+### Вариант А — git clone (рекомендуется для обновлений)
+
+В Терминале:
+
+```bash
+cd ~/Documents
+git clone https://github.com/ychkydyk/figma-plugin-fonts.git
+cd figma-plugin-fonts
 ```
-~/Documents/figma-plugin-fonts/
+
+Если `git` ещё не установлен на маке — Терминал сам предложит поставить
+Command Line Tools при первой попытке (одна кнопка «Install»).
+
+Обновление в будущем — одна команда из той же папки:
+
+```bash
+git pull
 ```
+
+И сразу же — рестарт плагина в Figma (без переимпорта, Figma подхватит
+новые файлы с диска при следующем запуске).
+
+### Вариант Б — ZIP-архив
+
+1. Открой https://github.com/ychkydyk/figma-plugin-fonts
+2. Зелёная кнопка **`Code`** → **`Download ZIP`**
+3. Распакуй `figma-plugin-fonts-main.zip` в `~/Documents/figma-plugin-fonts/`
+
+Или: получи `figma-plugin-fonts.zip` напрямую (AirDrop / Telegram /
+почта) и распакуй в ту же папку.
 
 > ⚠️ **Не оставляй папку в `~/Downloads/`** — после очистки загрузок
 > Figma потеряет ссылку на плагин и его придётся импортировать заново.
@@ -25,6 +53,7 @@ figma-plugin-fonts/
 ├── ui.html
 ├── README.md
 ├── INSTALL_MAC.md    ← этот файл
+├── LICENSE           ← MIT
 ├── docs/
 └── companion/
 ```
