@@ -106,6 +106,8 @@ async function scan() {
   };
 }
 
+const PREFS_KEY = "fonts-plugin-prefs";
+
 figma.ui.onmessage = async (msg) => {
   if (msg.type === "scan") {
     try {
@@ -124,18 +126,37 @@ figma.ui.onmessage = async (msg) => {
   }
   if (msg.type === "notify") { figma.notify(msg.text || ""); return; }
   if (msg.type === "close")  { figma.closePlugin(); return; }
+  if (msg.type === "load-prefs") {
+    try {
+      const prefs = await figma.clientStorage.getAsync(PREFS_KEY);
+      figma.ui.postMessage({ type: "prefs-loaded", prefs: prefs || {} });
+    } catch (e) {
+      figma.ui.postMessage({ type: "prefs-loaded", prefs: {} });
+    }
+    return;
+  }
+  if (msg.type === "save-prefs") {
+    try { await figma.clientStorage.setAsync(PREFS_KEY, msg.prefs || {}); } catch (e) { /* ignore */ }
+    return;
+  }
 };
 
-// автопересканирование при смене выделения
-figma.on("selectionchange", async () => {
-  try {
-    const result = await scan();
-    figma.ui.postMessage({
-      type: "scan-result",
-      document: result.document,
-      selection: result.selection,
-      selectionCount: result.selectionCount,
-      pageName: result.pageName
-    });
-  } catch (e) { /* ignore */ }
+// автопересканирование при смене выделения — с debounce 300 мс,
+// чтобы не молотить scan на каждое движение мыши при box-select.
+let scanDebounce = null;
+figma.on("selectionchange", function () {
+  if (scanDebounce !== null) clearTimeout(scanDebounce);
+  scanDebounce = setTimeout(async function () {
+    scanDebounce = null;
+    try {
+      const result = await scan();
+      figma.ui.postMessage({
+        type: "scan-result",
+        document: result.document,
+        selection: result.selection,
+        selectionCount: result.selectionCount,
+        pageName: result.pageName
+      });
+    } catch (e) { /* ignore */ }
+  }, 300);
 });

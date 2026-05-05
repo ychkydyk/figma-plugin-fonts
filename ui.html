@@ -148,6 +148,28 @@
     user-select: none;
   }
   .card-head:hover { background: rgba(0,0,0,0.03); }
+  .bulk-btn {
+    padding: 3px 7px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--bg);
+    color: var(--text-soft);
+    font-size: 10px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .bulk-btn:hover { background: var(--bg-soft); color: var(--text); }
+  .filter-toggle {
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--text-soft);
+    font-size: 11px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .filter-toggle.active { background: var(--warn); color: white; border-color: var(--warn); }
   .family-name {
     flex: 1;
     font-weight: 600;
@@ -296,6 +318,7 @@
   <input type="search" id="search" placeholder="Поиск…" />
   <input type="text" id="sample" placeholder="Текст превью" value="Съешь же ещё этих мягких французских булок 0123" />
   <input type="number" id="size" min="10" max="64" value="22" title="Размер превью" />
+  <button id="missing-only" class="filter-toggle" title="Показать только семейства, которых не хватает в системе">⚠ нехватка</button>
   <button id="rescan" title="Пересканировать">↻</button>
 </div>
 
@@ -460,7 +483,8 @@ const state = {
   size: 22,
   selected: new Map(),       // key "family__weight__style" -> {family, weight, style, source, url?, name?, bytes?}
   userTouched: new Set(),    // ключи, по которым пользователь снимал/ставил вручную — не пересчитываем авто
-  loadedFontFaces: new Set()
+  loadedFontFaces: new Set(),
+  filterMissingOnly: false   // показывать только семейства с missing-стилями
 };
 
 function currentProjectFonts() {
@@ -676,14 +700,63 @@ async function resolveCatalogUrl(cat, weight, style) {
   return googleFontUrl(cat.slug, subsetFor(cat), weight, style);
 }
 
+// =============================================================
+//  ВАЛИДАЦИЯ + ЛИМИТЫ
+// =============================================================
+const MAX_FILE_BYTES = 10 * 1024 * 1024;   // 10 MB на один шрифт
+const MAX_TOTAL_BYTES = 50 * 1024 * 1024;  // 50 MB на ZIP
+
+// Magic-bytes для font-форматов:
+//   .ttf TrueType:    00 01 00 00
+//   .ttf TT Apple:    74 72 75 65 ("true")
+//   .otf OpenType:    4F 54 54 4F ("OTTO")
+//   .woff:            77 4F 46 46 ("wOFF")
+//   .woff2:           77 4F 46 32 ("wOF2")
+//   .ttc TrueType Collection: 74 74 63 66 ("ttcf")
+function isFontMagic(bytes) {
+  if (!bytes || bytes.length < 4) return false;
+  const b0 = bytes[0], b1 = bytes[1], b2 = bytes[2], b3 = bytes[3];
+  if (b0 === 0x00 && b1 === 0x01 && b2 === 0x00 && b3 === 0x00) return "ttf";
+  if (b0 === 0x74 && b1 === 0x72 && b2 === 0x75 && b3 === 0x65) return "ttf-apple";
+  if (b0 === 0x4F && b1 === 0x54 && b2 === 0x54 && b3 === 0x4F) return "otf";
+  if (b0 === 0x77 && b1 === 0x4F && b2 === 0x46 && b3 === 0x46) return "woff";
+  if (b0 === 0x77 && b1 === 0x4F && b2 === 0x46 && b3 === 0x32) return "woff2";
+  if (b0 === 0x74 && b1 === 0x74 && b2 === 0x63 && b3 === 0x66) return "ttc";
+  return false;
+}
+
+// Защита от path traversal в именах из user-ZIP: убираем все ".." и абсолютные пути.
+function sanitizeArchivePath(name) {
+  return String(name)
+    .replace(/\\/g, "/")
+    .split("/")
+    .filter(seg => seg && seg !== "." && seg !== "..")
+    .join("/");
+}
+
 const fetchCache = new Map(); // url -> Promise<Uint8Array>
 function fetchFont(url) {
   if (fetchCache.has(url)) return fetchCache.get(url);
   const p = fetch(url).then(r => {
     if (!r.ok) throw new Error(`HTTP ${r.status} для ${url}`);
+    const len = +r.headers.get("content-length");
+    if (len && len > MAX_FILE_BYTES) {
+      throw new Error(`Файл слишком большой (${(len/1024/1024).toFixed(1)} MB > ${MAX_FILE_BYTES/1024/1024} MB)`);
+    }
     return r.arrayBuffer();
-  }).then(b => new Uint8Array(b));
+  }).then(b => {
+    const bytes = new Uint8Array(b);
+    if (bytes.length > MAX_FILE_BYTES) {
+      throw new Error(`Файл слишком большой: ${(bytes.length/1024/1024).toFixed(1)} MB`);
+    }
+    if (!isFontMagic(bytes)) {
+      throw new Error(`Не похоже на шрифт (плохие magic bytes) — отказано в загрузке для безопасности`);
+    }
+    return bytes;
+  });
   fetchCache.set(url, p);
+  // если упало — убираем из кеша, чтобы можно было ретраить
+  p.catch(() => fetchCache.delete(url));
   return p;
 }
 
@@ -729,6 +802,7 @@ function renderProject(term) {
   }
   const html = fonts
     .filter(f => !term || f.family.toLowerCase().includes(term))
+    .filter(f => !state.filterMissingOnly || f.usedStyles.some(s => !s.available))
     .map(f => {
       const cat = familyMatchesCatalog(f.family);
       const allOk = f.usedStyles.every(s => s.available);
@@ -744,6 +818,9 @@ function renderProject(term) {
         ? renderProjectStyles(cat, f.usedStyles)
         : `<div class="empty" style="padding:14px;text-align:left">Семейство <b>${escape(f.family)}</b> не найдено в стартовом каталоге Google Fonts.<br/><br/>Загрузи его архивом во вкладке <b>ZIP</b> — после этого начертания подтянутся сюда автоматически.<br/><br/><span class="style-meta">Используется в проекте: ${f.usedStyles.map(s => escape(s.figmaStyle)).join(", ")}</span></div>`;
 
+      const bulkBtns = cat
+        ? `<button class="bulk-btn" data-bulk="all" title="Выбрать все начертания">все</button><button class="bulk-btn" data-bulk="none" title="Снять все">×</button>`
+        : "";
       return `
         <div class="card open" data-family="${escape(f.family)}">
           <div class="card-head" data-toggle>
@@ -752,6 +829,7 @@ function renderProject(term) {
             ${headBadge}
             ${sourceBadge}
             ${used}
+            ${bulkBtns}
           </div>
           <div class="card-body">${stylesHtml}</div>
         </div>`;
@@ -807,6 +885,8 @@ function renderCatalog(term) {
         <span class="family-name">${escape(cat.family)}</span>
         <span class="badge">${vendorLabel(cat.source)}</span>
         <span class="style-meta">${cat.weights.length}×${cat.styles.length}</span>
+        <button class="bulk-btn" data-bulk="all" title="Выбрать все начертания">все</button>
+        <button class="bulk-btn" data-bulk="none" title="Снять все">×</button>
       </div>
       <div class="card-body">${renderFullCatalogStyles(cat)}</div>
     </div>`).join("");
@@ -1008,6 +1088,47 @@ function autoSelectFromScope() {
 }
 
 main.addEventListener("click", async (e) => {
+  // bulk-кнопки в карточке: «все» / «×»
+  const bulk = e.target.closest("[data-bulk]");
+  if (bulk) {
+    e.stopPropagation();
+    const card = bulk.closest(".card");
+    if (!card) return;
+    const action = bulk.dataset.bulk; // "all" | "none"
+    if (!card.classList.contains("open")) {
+      card.classList.add("open");
+      card.querySelectorAll("[data-row]").forEach(row => loadRowPreview(row));
+    }
+    card.querySelectorAll("[data-row]").forEach(row => {
+      const cb = row.querySelector('input[type="checkbox"]');
+      if (!cb) return;
+      const want = action === "all";
+      if (cb.checked !== want) {
+        cb.checked = want;
+        const ev = new Event("change", { bubbles: true });
+        const family = row.dataset.family;
+        const weight = +row.dataset.weight;
+        const style = row.dataset.style;
+        const key = selKey(family, weight, style);
+        state.userTouched.add(key);
+        if (want) {
+          state.selected.set(key, {
+            family, weight, style,
+            source: row.dataset.source,
+            vendor: row.dataset.vendor || null,
+            slug: row.dataset.slug || null,
+            url: row.dataset.url || null,
+            name: row.dataset.name || null,
+            bytes: row.__bytes || null
+          });
+        } else {
+          state.selected.delete(key);
+        }
+      }
+    });
+    updateFooter();
+    return;
+  }
   const head = e.target.closest("[data-toggle]");
   if (head) {
     const card = head.parentElement;
@@ -1048,10 +1169,43 @@ $("#search").addEventListener("input", (e) => { state.search = e.target.value; r
 $("#sample").addEventListener("input", (e) => {
   state.sample = e.target.value;
   document.querySelectorAll("[data-preview]").forEach(p => { if (!p.classList.contains("loading")) p.textContent = state.sample; });
+  schedulePrefsSave();
 });
 $("#size").addEventListener("input", (e) => {
   state.size = +e.target.value || 22;
   document.querySelectorAll("[data-preview]").forEach(p => { p.style.fontSize = state.size + "px"; });
+  schedulePrefsSave();
+});
+
+// Сохраняем sample/size в figma.clientStorage с debounce 500мс,
+// чтобы не слать сообщение на каждый keystroke.
+let _prefsSaveTimer = null;
+function schedulePrefsSave() {
+  if (_prefsSaveTimer) clearTimeout(_prefsSaveTimer);
+  _prefsSaveTimer = setTimeout(() => {
+    parent.postMessage({
+      pluginMessage: {
+        type: "save-prefs",
+        prefs: { sample: state.sample, size: state.size }
+      }
+    }, "*");
+  }, 500);
+}
+function applyLoadedPrefs(prefs) {
+  if (!prefs) return;
+  if (typeof prefs.sample === "string" && prefs.sample.length) {
+    state.sample = prefs.sample;
+    $("#sample").value = prefs.sample;
+  }
+  if (typeof prefs.size === "number" && prefs.size >= 10 && prefs.size <= 64) {
+    state.size = prefs.size;
+    $("#size").value = prefs.size;
+  }
+}
+$("#missing-only").addEventListener("click", () => {
+  state.filterMissingOnly = !state.filterMissingOnly;
+  $("#missing-only").classList.toggle("active", state.filterMissingOnly);
+  renderTab();
 });
 $("#rescan").addEventListener("click", () => parent.postMessage({ pluginMessage: { type: "scan" } }, "*"));
 $("#clear").addEventListener("click", () => { state.selected.clear(); document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false); updateFooter(); });
@@ -1073,32 +1227,53 @@ function bindDrop() {
 
 async function handleFiles(files) {
   setProgress(5);
+  const skipped = [];
   for (const file of files) {
     try {
+      if (file.size > MAX_FILE_BYTES * 5) { // user-ZIP может быть до 50 MB
+        skipped.push(`${file.name}: слишком большой (${(file.size/1024/1024).toFixed(1)} MB)`);
+        continue;
+      }
       if (file.name.toLowerCase().endsWith(".zip")) {
         const buf = await file.arrayBuffer();
         const entries = await readZip(buf);
-        ingestUserFonts(entries.filter(e => /\.(ttf|otf|woff2?|TTF|OTF|WOFF2?)$/.test(e.name) && !e.name.endsWith("/")));
+        const fonts = entries
+          .filter(e => /\.(ttf|otf|woff2?)$/i.test(e.name) && !e.name.endsWith("/"))
+          .map(e => Object.assign({}, e, { name: sanitizeArchivePath(e.name) }))
+          .filter(e => e.name);
+        ingestUserFonts(fonts, skipped);
       } else if (/\.(ttf|otf|woff2?)$/i.test(file.name)) {
         const bytes = new Uint8Array(await file.arrayBuffer());
-        ingestUserFonts([{ name: file.name, data: bytes }]);
+        ingestUserFonts([{ name: file.name, data: bytes }], skipped);
       }
     } catch (err) {
       console.error(err);
-      alert("Ошибка обработки " + file.name + ": " + err.message);
+      skipped.push(`${file.name}: ${err.message}`);
     }
   }
   setProgress(0);
   renderTab();
+  if (skipped.length) {
+    alert("Пропущено " + skipped.length + " файл(ов):\n\n" + skipped.slice(0, 10).join("\n"));
+  }
 }
 
-function ingestUserFonts(entries) {
+function ingestUserFonts(entries, skipped) {
   for (const e of entries) {
-    const meta = parseFontFilename(e.name);
+    if (e.data.length > MAX_FILE_BYTES) {
+      skipped && skipped.push(`${e.name}: > ${MAX_FILE_BYTES/1024/1024} MB`);
+      continue;
+    }
+    if (!isFontMagic(e.data)) {
+      skipped && skipped.push(`${e.name}: не похоже на шрифт (magic bytes)`);
+      continue;
+    }
+    const baseName = e.name.split("/").pop();
+    const meta = parseFontFilename(baseName);
     let u = state.uploaded.find(x => x.family.toLowerCase() === meta.family.toLowerCase());
     if (!u) { u = { family: meta.family, slug: "_user", styles: [], source: "user" }; state.uploaded.push(u); }
     if (!u.styles.find(s => s.weight === meta.weight && s.style === meta.style)) {
-      u.styles.push({ weight: meta.weight, style: meta.style, name: e.name.split("/").pop(), bytes: e.data });
+      u.styles.push({ weight: meta.weight, style: meta.style, name: baseName, bytes: e.data });
     }
   }
 }
@@ -1175,12 +1350,23 @@ async function onDownload() {
         }
       }
       if (!bytes) { failed.push(`${item.family} ${item.weight} ${item.style}: нет данных`); continue; }
+      // user-upload-байты не проходят через fetchFont, поэтому ещё раз проверяем magic.
+      if (!isFontMagic(bytes)) {
+        failed.push(`${item.family} ${item.weight} ${item.style}: некорректные magic bytes`);
+        continue;
+      }
       const safeFam = item.family.replace(/[^\w\-А-Яа-яЁё ]/g, "").replace(/\s+/g, "");
       const ext = item.source === "user" && item.name && /\.(otf|woff2?)$/i.test(item.name)
         ? item.name.match(/\.(otf|woff2?)$/i)[0]
         : ".ttf";
       const fname = `${safeFam}/${safeFam}-${item.weight}${item.style === "italic" ? "Italic" : ""}${ext}`;
       entries.push({ name: fname, data: bytes });
+    }
+    const totalBytes = entries.reduce((acc, e) => acc + e.data.length, 0);
+    if (totalBytes > MAX_TOTAL_BYTES) {
+      setProgress(0); btn.disabled = false;
+      alert(`Слишком большой ZIP: ${(totalBytes/1024/1024).toFixed(1)} MB > ${MAX_TOTAL_BYTES/1024/1024} MB.\n\nСними часть начертаний или загружай по частям.`);
+      return;
     }
     console.log("[fonts-plugin] fetched", entries.length, "of", state.selected.size, "; failed:", failed.length);
 
@@ -1282,6 +1468,10 @@ function showInstallHint(n, info) {
 window.onmessage = (e) => {
   const msg = e.data && e.data.pluginMessage;
   if (!msg) return;
+  if (msg.type === "prefs-loaded") {
+    applyLoadedPrefs(msg.prefs);
+    return;
+  }
   if (msg.type === "scan-result") {
     state.scan.document = msg.document || [];
     state.scan.selection = msg.selection || null;
@@ -1304,7 +1494,8 @@ window.onmessage = (e) => {
   }
 };
 
-// init
+// init: сначала просим prefs (sample text, size), потом скан документа
+parent.postMessage({ pluginMessage: { type: "load-prefs" } }, "*");
 parent.postMessage({ pluginMessage: { type: "scan" } }, "*");
 updateFooter();
 updateScopeInfo();
