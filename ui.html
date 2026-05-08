@@ -4,38 +4,70 @@
 <meta charset="utf-8" />
 <title>Шрифты проекта</title>
 <style>
+  /* VOLT Studio brand theme */
   :root {
-    --bg: #ffffff;
-    --bg-soft: #f5f5f5;
-    --bg-card: #fafafa;
-    --border: #e5e5e5;
-    --text: #1a1a1a;
-    --text-soft: #6b6b6b;
-    --accent: #18a0fb;
-    --accent-text: #ffffff;
-    --warn: #f24822;
-    --ok: #14ae5c;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #2c2c2c;
-      --bg-soft: #1e1e1e;
-      --bg-card: #383838;
-      --border: #444;
-      --text: #eaeaea;
-      --text-soft: #a0a0a0;
-    }
+    --bg: #0A0A0A;
+    --bg-soft: #111111;
+    --bg-card: #1A1A1A;
+    --border: #222222;
+    --text: #FFFFFF;
+    --text2: #CCCCCC;
+    --text-soft: #888888;
+    --accent: #C8FF00;
+    --accent-text: #0A0A0A;
+    --warn: #FF4733;
+    --ok: #C8FF00;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; height: 100%; }
   body {
-    font: 12px/1.4 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    font: 12px/1.5 Inter, "Helvetica Neue", Arial, sans-serif;
     color: var(--text);
     background: var(--bg);
     display: flex;
     flex-direction: column;
     height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.005em;
   }
+  /* VOLT brand header */
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .brand-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+  .brand-mark::before {
+    content: "";
+    display: inline-block;
+    width: 22px;
+    height: 2px;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .brand-tag {
+    font-size: 9px;
+    color: var(--text-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
   header {
     display: flex;
     border-bottom: 1px solid var(--border);
@@ -44,16 +76,21 @@
   }
   .tab {
     flex: 1;
-    padding: 10px 8px;
+    padding: 11px 8px;
     text-align: center;
     cursor: pointer;
     user-select: none;
     border-bottom: 2px solid transparent;
     color: var(--text-soft);
-    font-weight: 500;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    transition: color 0.15s, border-color 0.15s;
   }
+  .tab:hover { color: var(--text2); }
   .tab.active {
-    color: var(--text);
+    color: var(--accent);
     border-bottom-color: var(--accent);
     background: var(--bg);
   }
@@ -64,68 +101,95 @@
     gap: 8px;
     align-items: center;
     flex-wrap: wrap;
+    background: var(--bg);
   }
   .toolbar input[type="text"], .toolbar input[type="search"] {
     flex: 1;
     min-width: 120px;
-    padding: 6px 8px;
+    padding: 7px 10px;
     border: 1px solid var(--border);
     border-radius: 4px;
-    background: var(--bg);
+    background: var(--bg-soft);
     color: var(--text);
     font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .toolbar input[type="text"]:focus, .toolbar input[type="search"]:focus {
+    border-color: var(--accent);
   }
   .toolbar input[type="number"] {
-    width: 64px;
-    padding: 6px 8px;
+    width: 60px;
+    padding: 7px 8px;
     border: 1px solid var(--border);
     border-radius: 4px;
-    background: var(--bg);
+    background: var(--bg-soft);
     color: var(--text);
+    font-family: inherit;
+    outline: none;
   }
+  .toolbar input[type="number"]:focus { border-color: var(--accent); }
+
   button {
-    padding: 6px 10px;
+    padding: 7px 12px;
     border: 1px solid var(--border);
     border-radius: 4px;
-    background: var(--bg);
-    color: var(--text);
+    background: var(--bg-soft);
+    color: var(--text2);
     cursor: pointer;
     font-size: 12px;
+    font-family: inherit;
+    transition: all 0.15s;
   }
-  button:hover { background: var(--bg-card); }
+  button:hover { background: var(--bg-card); color: var(--text); border-color: #333; }
   button.primary {
     background: var(--accent);
     color: var(--accent-text);
     border-color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.02em;
   }
-  button.primary:hover { filter: brightness(1.05); }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.primary:hover { background: #D4FF33; border-color: #D4FF33; box-shadow: 0 0 16px rgba(200,255,0,0.3); }
+  button.ghost {
+    background: transparent;
+    color: var(--text);
+    border-color: var(--border);
+  }
+  button.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
   .seg-group {
     display: inline-flex;
     border: 1px solid var(--border);
     border-radius: 4px;
     overflow: hidden;
     flex-shrink: 0;
+    background: var(--bg-soft);
   }
   .seg-group .seg {
-    padding: 6px 10px;
+    padding: 7px 11px;
     border: 0;
     border-right: 1px solid var(--border);
     border-radius: 0;
-    background: var(--bg);
+    background: transparent;
     color: var(--text-soft);
     font-size: 11px;
     cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
   }
   .seg-group .seg:last-child { border-right: 0; }
   .seg-group .seg.active { background: var(--accent); color: var(--accent-text); }
   .seg-group .seg:disabled { opacity: 0.4; cursor: not-allowed; }
   .scope-info {
-    padding: 6px 12px;
-    font-size: 11px;
+    padding: 8px 14px;
+    font-size: 10px;
     color: var(--text-soft);
     background: var(--bg-soft);
     border-bottom: 1px solid var(--border);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
   main {
     flex: 1;
@@ -138,55 +202,72 @@
     border-radius: 6px;
     margin-bottom: 8px;
     overflow: hidden;
+    transition: border-color 0.15s;
   }
+  .card:hover { border-color: #2c2c2c; }
+  .card.open { border-color: #2c2c2c; }
   .card-head {
-    padding: 10px 12px;
+    padding: 11px 13px;
     display: flex;
     align-items: center;
     gap: 8px;
     cursor: pointer;
     user-select: none;
   }
-  .card-head:hover { background: rgba(0,0,0,0.03); }
+  .card-head:hover { background: rgba(255,255,255,0.02); }
   .bulk-btn {
-    padding: 3px 7px;
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    background: var(--bg);
-    color: var(--text-soft);
-    font-size: 10px;
-    line-height: 1;
-    cursor: pointer;
-  }
-  .bulk-btn:hover { background: var(--bg-soft); color: var(--text); }
-  .filter-toggle {
     padding: 4px 8px;
     border: 1px solid var(--border);
-    border-radius: 4px;
-    background: var(--bg);
+    border-radius: 3px;
+    background: var(--bg-soft);
     color: var(--text-soft);
-    font-size: 11px;
+    font-size: 9px;
+    line-height: 1;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-family: inherit;
+    transition: all 0.12s;
+  }
+  .bulk-btn:hover { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+  .filter-toggle {
+    padding: 6px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-soft);
+    color: var(--text-soft);
+    font-size: 10px;
     cursor: pointer;
     user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    font-family: inherit;
   }
+  .filter-toggle:hover { color: var(--text); border-color: #333; }
   .filter-toggle.active { background: var(--warn); color: white; border-color: var(--warn); }
   .family-name {
     flex: 1;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 13px;
+    letter-spacing: -0.01em;
   }
   .badge {
-    font-size: 10px;
-    padding: 2px 6px;
-    border-radius: 10px;
+    font-size: 9px;
+    padding: 3px 8px;
+    border-radius: 100px;
     background: var(--bg-soft);
     color: var(--text-soft);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    white-space: nowrap;
   }
-  .badge.ok { background: rgba(20,174,92,0.15); color: var(--ok); }
-  .badge.miss { background: rgba(242,72,34,0.15); color: var(--warn); }
-  .badge.user { background: rgba(24,160,251,0.15); color: var(--accent); }
+  .badge.ok { background: rgba(200,255,0,0.1); color: var(--accent); border-color: rgba(200,255,0,0.3); }
+  .badge.miss { background: rgba(255,71,51,0.1); color: var(--warn); border-color: rgba(255,71,51,0.3); }
+  .badge.user { background: rgba(200,255,0,0.08); color: var(--accent); border-color: rgba(200,255,0,0.2); }
   .card-body {
     border-top: 1px solid var(--border);
     padding: 8px 12px;
@@ -233,7 +314,7 @@
     right: 0;
     background: var(--bg);
     border-top: 1px solid var(--border);
-    padding: 10px 12px;
+    padding: 11px 14px;
     display: flex;
     gap: 8px;
     align-items: center;
@@ -241,8 +322,12 @@
   .footer-info {
     flex: 1;
     color: var(--text-soft);
-    font-size: 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
   }
+  .footer-info b { color: var(--accent); font-weight: 700; }
   .empty {
     padding: 40px 20px;
     text-align: center;
@@ -251,12 +336,19 @@
   .drop-zone {
     border: 2px dashed var(--border);
     border-radius: 8px;
-    padding: 32px 16px;
+    padding: 36px 16px;
     text-align: center;
     color: var(--text-soft);
     cursor: pointer;
+    background: var(--bg-soft);
+    transition: all 0.15s;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: 600;
   }
-  .drop-zone.drag { border-color: var(--accent); color: var(--accent); }
+  .drop-zone:hover { border-color: var(--accent); color: var(--accent); }
+  .drop-zone.drag { border-color: var(--accent); color: var(--accent); background: rgba(200,255,0,0.05); }
   .modal-bg {
     position: fixed;
     inset: 0;
@@ -269,25 +361,36 @@
   }
   .modal-bg.open { display: flex; }
   .modal {
-    background: var(--bg);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 16px 18px;
+    padding: 20px 22px;
     max-width: 460px;
     width: 100%;
     max-height: 80vh;
     overflow-y: auto;
   }
-  .modal h3 { margin: 0 0 8px; font-size: 14px; }
-  .modal p, .modal li { font-size: 12px; color: var(--text); }
+  .modal h3 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--accent);
+  }
+  .modal p, .modal li { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .modal ol, .modal ul { padding-left: 20px; }
   .modal code {
     background: var(--bg-soft);
-    padding: 1px 4px;
+    border: 1px solid var(--border);
+    padding: 1px 6px;
     border-radius: 3px;
     font-size: 11px;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    color: var(--accent);
   }
-  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+  .modal-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 14px; }
   .progress-bar {
-    height: 3px;
+    height: 2px;
     background: var(--bg-soft);
     overflow: hidden;
     flex-shrink: 0;
@@ -297,12 +400,18 @@
     background: var(--accent);
     transition: width 0.2s;
     width: 0%;
+    box-shadow: 0 0 8px var(--accent);
   }
   .hidden { display: none !important; }
   .row-spread { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
 </style>
 </head>
 <body>
+
+<div class="brand">
+  <span class="brand-mark">VOLT · FONTS</span>
+  <span class="brand-tag">v0.3 · made with ⚡</span>
+</div>
 
 <header>
   <div class="tab active" data-tab="project">Проект</div>
@@ -330,9 +439,10 @@
 </main>
 
 <footer>
-  <div class="footer-info" id="info">Выбрано: 0 начертаний</div>
-  <button id="clear">Сброс</button>
-  <button id="download" class="primary" disabled>Скачать ZIP</button>
+  <div class="footer-info" id="info">Выбрано: 0</div>
+  <button id="clear" class="ghost" title="Снять весь выбор">Сброс</button>
+  <button id="download" title="Скачать архив со всеми выбранными шрифтами">ZIP</button>
+  <button id="install" class="primary" disabled title="Установить выбранные шрифты прямо в систему (без архива)">⚡ Установить</button>
 </footer>
 
 <div class="modal-bg" id="modal-bg">
@@ -341,6 +451,22 @@
     <div id="modal-body"></div>
     <div class="modal-actions">
       <button class="primary" id="modal-close">Понятно</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="find-modal-bg">
+  <div class="modal" style="max-width:520px">
+    <h3>🔎 Найти «<span id="find-modal-name"></span>»</h3>
+    <div id="find-modal-status" style="font-size:12px;color:var(--text-soft);margin-bottom:10px">Ищу в открытых каталогах…</div>
+    <div id="find-modal-results" style="display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;margin-bottom:10px"></div>
+    <details style="margin-top:6px">
+      <summary style="cursor:pointer;font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.08em;font-weight:600;padding:6px 0">Ничего не подошло? Поискать на сайтах вручную</summary>
+      <div id="find-modal-links" style="display:flex;flex-direction:column;gap:6px;margin-top:8px"></div>
+    </details>
+    <p style="margin-top:14px;color:var(--text-soft);font-size:11px">Если шрифт коммерческий и нашёл его файл сам — перетащи <code>.ttf</code>/<code>.otf</code> во вкладку <b>ZIP</b>.</p>
+    <div class="modal-actions">
+      <button class="primary" id="find-modal-close">Закрыть</button>
     </div>
   </div>
 </div>
@@ -443,6 +569,91 @@ const STARTER_CATALOG = [
   { family: "Great Vibes",      source: "google", slug: "great-vibes",      weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
   { family: "Permanent Marker", source: "google", slug: "permanent-marker", weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
 
+  // --- Google Fonts: Sans (расширение, упор на cyrillic) ---
+  { family: "Onest",            source: "google", slug: "onest",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Jost",             source: "google", slug: "jost",             weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Geologica",        source: "google", slug: "geologica",        weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Saira",            source: "google", slug: "saira",            weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Saira Condensed",  source: "google", slug: "saira-condensed",  weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Saira Semi Condensed", source: "google", slug: "saira-semi-condensed", weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],  subsets: ["latin","cyrillic"] },
+  { family: "Tektur",           source: "google", slug: "tektur",           weights: [400,500,600,700,800,900],             styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Wix Madefor Display", source: "google", slug: "wix-madefor-display", weights: [400,500,600,700,800],          styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Wix Madefor Text", source: "google", slug: "wix-madefor-text", weights: [400,500,600,700,800],                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Unbounded",        source: "google", slug: "unbounded",        weights: [200,300,400,500,600,700,800,900],     styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Ruda",             source: "google", slug: "ruda",             weights: [400,500,600,700,800,900],             styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Inter Tight",      source: "google", slug: "inter-tight",      weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Albert Sans",      source: "google", slug: "albert-sans",      weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Hanken Grotesk",   source: "google", slug: "hanken-grotesk",   weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Lexend",           source: "google", slug: "lexend",           weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin"] },
+  { family: "Lexend Deca",      source: "google", slug: "lexend-deca",      weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"],          subsets: ["latin"] },
+  { family: "Be Vietnam Pro",   source: "google", slug: "be-vietnam-pro",   weights: [100,200,300,400,500,600,700,800,900], styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Cuprum",           source: "google", slug: "cuprum",           weights: [400,500,600,700],                     styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "PT Sans Narrow",   source: "google", slug: "pt-sans-narrow",   weights: [400,700],                             styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Tenor Sans",       source: "google", slug: "tenor-sans",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Yanone Kaffeesatz", source: "google", slug: "yanone-kaffeesatz", weights: [200,300,400,500,600,700],           styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Russo One",        source: "google", slug: "russo-one",        weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Pangolin",         source: "google", slug: "pangolin",         weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Sansita",          source: "google", slug: "sansita",          weights: [400,700,800,900],                     styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Alegreya Sans",    source: "google", slug: "alegreya-sans",    weights: [100,300,400,500,700,800,900],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Fjalla One",       source: "google", slug: "fjalla-one",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Faustina",         source: "google", slug: "faustina",         weights: [300,400,500,600,700],                 styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Spectral",         source: "google", slug: "spectral",         weights: [200,300,400,500,600,700,800],         styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+
+  // --- Google Fonts: Display (расширение) ---
+  { family: "Bagel Fat One",    source: "google", slug: "bagel-fat-one",    weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Stalinist One",    source: "google", slug: "stalinist-one",    weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Iceberg",          source: "google", slug: "iceberg",          weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Pattaya",          source: "google", slug: "pattaya",          weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Marmelad",         source: "google", slug: "marmelad",         weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Underdog",         source: "google", slug: "underdog",         weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Kelly Slab",       source: "google", slug: "kelly-slab",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Yeseva One",       source: "google", slug: "yeseva-one",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Forum",            source: "google", slug: "forum",            weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Philosopher",      source: "google", slug: "philosopher",      weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Lobster Two",      source: "google", slug: "lobster-two",      weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Bungee Inline",    source: "google", slug: "bungee-inline",    weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Bungee Shade",     source: "google", slug: "bungee-shade",     weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Amatic SC",        source: "google", slug: "amatic-sc",        weights: [400,700],                             styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Chakra Petch",     source: "google", slug: "chakra-petch",     weights: [300,400,500,600,700],                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Audiowide",        source: "google", slug: "audiowide",        weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Black Ops One",    source: "google", slug: "black-ops-one",    weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Special Elite",    source: "google", slug: "special-elite",    weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Concert One",      source: "google", slug: "concert-one",      weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Fugaz One",        source: "google", slug: "fugaz-one",        weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Bowlby One",       source: "google", slug: "bowlby-one",       weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Bowlby One SC",    source: "google", slug: "bowlby-one-sc",    weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Big Shoulders Display", source: "google", slug: "big-shoulders-display", weights: [100,200,300,400,500,600,700,800,900], styles: ["normal"], subsets: ["latin"] },
+  { family: "Ultra",            source: "google", slug: "ultra",            weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+
+  // --- Google Fonts: Handwriting (расширение) ---
+  { family: "Marck Script",     source: "google", slug: "marck-script",     weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Bad Script",       source: "google", slug: "bad-script",       weights: [400],                                 styles: ["normal"],          subsets: ["latin","cyrillic"] },
+  { family: "Kalam",            source: "google", slug: "kalam",            weights: [300,400,700],                         styles: ["normal"],          subsets: ["latin"] },
+  { family: "Satisfy",          source: "google", slug: "satisfy",          weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Architects Daughter", source: "google", slug: "architects-daughter", weights: [400],                           styles: ["normal"],          subsets: ["latin"] },
+  { family: "Indie Flower",     source: "google", slug: "indie-flower",     weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Shadows Into Light", source: "google", slug: "shadows-into-light", weights: [400],                             styles: ["normal"],          subsets: ["latin"] },
+  { family: "Cookie",           source: "google", slug: "cookie",           weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Gloria Hallelujah", source: "google", slug: "gloria-hallelujah", weights: [400],                               styles: ["normal"],          subsets: ["latin"] },
+  { family: "Yellowtail",       source: "google", slug: "yellowtail",       weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Tangerine",        source: "google", slug: "tangerine",        weights: [400,700],                             styles: ["normal"],          subsets: ["latin"] },
+  { family: "Allura",           source: "google", slug: "allura",           weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Berkshire Swash",  source: "google", slug: "berkshire-swash",  weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+
+  // --- Google Fonts: Serif (расширение) ---
+  { family: "Marcellus",        source: "google", slug: "marcellus",        weights: [400],                                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Cinzel",           source: "google", slug: "cinzel",           weights: [400,500,600,700,800,900],             styles: ["normal"],          subsets: ["latin"] },
+  { family: "Cinzel Decorative", source: "google", slug: "cinzel-decorative", weights: [400,700,900],                       styles: ["normal"],          subsets: ["latin"] },
+  { family: "Cormorant",        source: "google", slug: "cormorant",        weights: [300,400,500,600,700],                 styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Frank Ruhl Libre", source: "google", slug: "frank-ruhl-libre", weights: [300,400,500,700,900],                 styles: ["normal"],          subsets: ["latin"] },
+  { family: "Old Standard TT",  source: "google", slug: "old-standard-tt",  weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "Tinos",            source: "google", slug: "tinos",            weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+
+  // --- Google Fonts: Mono (расширение) ---
+  { family: "Anonymous Pro",    source: "google", slug: "anonymous-pro",    weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin","cyrillic"] },
+  { family: "B612 Mono",        source: "google", slug: "b612-mono",        weights: [400,700],                             styles: ["normal","italic"], subsets: ["latin"] },
+  { family: "Major Mono Display", source: "google", slug: "major-mono-display", weights: [400],                             styles: ["normal"],          subsets: ["latin"] },
+
   // --- Fontshare (Indian Type Foundry — бесплатно для личного и коммерческого) ---
   { family: "Satoshi",          source: "fontshare", slug: "satoshi",          weights: [300,400,500,700,900], styles: ["normal","italic"] },
   { family: "Cabinet Grotesk",  source: "fontshare", slug: "cabinet-grotesk",  weights: [100,200,300,400,500,700,800,900], styles: ["normal"] },
@@ -484,7 +695,9 @@ const state = {
   selected: new Map(),       // key "family__weight__style" -> {family, weight, style, source, url?, name?, bytes?}
   userTouched: new Set(),    // ключи, по которым пользователь снимал/ставил вручную — не пересчитываем авто
   loadedFontFaces: new Set(),
-  filterMissingOnly: false   // показывать только семейства с missing-стилями
+  filterMissingOnly: false,  // показывать только семейства с missing-стилями
+  sampleEdited: false,       // юзер вручную трогал поле «текст превью» — больше не подменяем сэмплом из selection
+  selectionSample: ""        // последний сэмпл текста из выделения (приходит из code.js)
 };
 
 function currentProjectFonts() {
@@ -816,7 +1029,14 @@ function renderProject(term) {
 
       const stylesHtml = cat
         ? renderProjectStyles(cat, f.usedStyles)
-        : `<div class="empty" style="padding:14px;text-align:left">Семейство <b>${escape(f.family)}</b> не найдено в стартовом каталоге Google Fonts.<br/><br/>Загрузи его архивом во вкладке <b>ZIP</b> — после этого начертания подтянутся сюда автоматически.<br/><br/><span class="style-meta">Используется в проекте: ${f.usedStyles.map(s => escape(s.figmaStyle)).join(", ")}</span></div>`;
+        : `<div class="empty" style="padding:14px;text-align:left">
+            Семейство <b>${escape(f.family)}</b> не найдено в открытом каталоге плагина.<br/><br/>
+            <span class="style-meta">Используется в проекте: ${f.usedStyles.map(s => escape(s.figmaStyle)).join(", ")}</span>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+              <button class="primary find-font-btn" data-find-name="${escape(f.family)}">🔎 Найти в сети</button>
+              <button class="ghost" data-goto-tab="upload">Загрузить ZIP</button>
+            </div>
+          </div>`;
 
       const bulkBtns = cat
         ? `<button class="bulk-btn" data-bulk="all" title="Выбрать все начертания">все</button><button class="bulk-btn" data-bulk="none" title="Снять все">×</button>`
@@ -835,8 +1055,8 @@ function renderProject(term) {
         </div>`;
     }).join("");
   main.innerHTML = html || `<div class="empty">Ничего не найдено по запросу.</div>`;
-  // lazy-prefetch превью для всех видимых строк
-  main.querySelectorAll("[data-row]").forEach(row => loadRowPreview(row));
+  // lazy-prefetch превью только для видимой части (IntersectionObserver)
+  main.querySelectorAll("[data-row]").forEach(row => observeRowPreview(row));
 }
 
 function renderProjectStyles(cat, usedStyles) {
@@ -967,8 +1187,27 @@ function parseStyle(figmaStyle) {
 function escape(s) { return String(s).replace(/[<>&"]/g, c => ({"<":"&lt;",">":"&gt;","&":"&amp;","\"":"&quot;"})[c]); }
 
 // =============================================================
-//  PREVIEW LOADER (lazy, при раскрытии card)
+//  PREVIEW LOADER (lazy via IntersectionObserver)
+//  На больших документах открыто сразу N×M строк — без обсёрвера это N×M
+//  параллельных fetch к jsdelivr, что душит и CDN и UI. Грузим только то,
+//  что реально попало во viewport главного скролл-контейнера.
 // =============================================================
+const _previewObserver = ("IntersectionObserver" in window)
+  ? new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          _previewObserver.unobserve(entry.target);
+          loadRowPreview(entry.target);
+        }
+      }
+    }, { root: document.querySelector("main"), rootMargin: "200px 0px", threshold: 0.01 })
+  : null;
+
+function observeRowPreview(row) {
+  if (_previewObserver) _previewObserver.observe(row);
+  else loadRowPreview(row); // fallback на старых движках
+}
+
 async function loadRowPreview(row) {
   const prev = row.querySelector("[data-preview]");
   if (!prev || !prev.classList.contains("loading")) return;
@@ -1017,6 +1256,11 @@ async function loadRowPreview(row) {
 // =============================================================
 //  EVENT BINDING
 // =============================================================
+// Объявляем FS_SUPPORTED здесь — до updateFooter() и любых обработчиков,
+// которые проверяют наличие File System Access API. Полная реализация
+// install-логики ниже в секции ONE-CLICK INSTALL.
+const FS_SUPPORTED = typeof window !== "undefined" && typeof window.showDirectoryPicker === "function";
+
 document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", () => {
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === tab));
   state.tab = tab.dataset.tab;
@@ -1028,6 +1272,7 @@ document.querySelectorAll("#scope-group .seg").forEach(btn => btn.addEventListen
   document.querySelectorAll("#scope-group .seg").forEach(b => b.classList.toggle("active", b === btn));
   state.scope = btn.dataset.scope;
   state.userTouched.clear();
+  applySelectionSample();
   autoSelectFromScope();
   renderTab();
   updateScopeInfo();
@@ -1087,7 +1332,371 @@ function autoSelectFromScope() {
   updateFooter();
 }
 
+// =============================================================
+//  FIND FONT — поиск по бесплатным шрифт-сайтам, открывает внешние
+//  ссылки через figma.openExternal. Все ресурсы — без покупки.
+// =============================================================
+const FIND_SOURCES = [
+  { id: "google-fonts", label: "Google Fonts", note: "open-source каталог Google",
+    url: q => `https://fonts.google.com/?query=${encodeURIComponent(q)}` },
+  { id: "fontsource",   label: "Fontsource",   note: "наш CDN — все Google Fonts + open-source",
+    url: q => `https://fontsource.org/?query=${encodeURIComponent(q)}` },
+  { id: "fontshare",    label: "Fontshare",    note: "Indian Type Foundry — бесплатно для коммерции",
+    url: q => `https://www.fontshare.com/?searchTerm=${encodeURIComponent(q)}` },
+  { id: "fontsquirrel", label: "Font Squirrel",note: "ручная курация бесплатных для коммерции",
+    url: q => `https://www.fontsquirrel.com/fonts/list/find_fonts?filter%5Bsearchterm%5D=${encodeURIComponent(q)}` },
+  { id: "1001fonts",    label: "1001 Fonts",   note: "крупный каталог бесплатных",
+    url: q => `https://www.1001fonts.com/search.html?search=${encodeURIComponent(q)}` },
+  { id: "dafont",       label: "DaFont",       note: "бесплатные дизайнерские, проверяй лицензию каждого",
+    url: q => `https://www.dafont.com/search.php?q=${encodeURIComponent(q)}` },
+  { id: "fontesk",      label: "Fontesk",      note: "коллекция бесплатных шрифтов",
+    url: q => `https://fontesk.com/?s=${encodeURIComponent(q)}` },
+  { id: "google-search",label: "Google поиск", note: "общий поиск «<имя> font free download»",
+    url: q => `https://www.google.com/search?q=${encodeURIComponent(q + " font free download")}` }
+];
+
+function openExternal(url) {
+  // Просим main thread открыть ссылку через figma.openExternal —
+  // это правильный путь для Figma plugin sandbox (target=_blank в iframe
+  // часто блокируется). Fallback на window.open для случаев когда плагин
+  // запущен вне Figma (тестовый веб-просмотр).
+  parent.postMessage({ pluginMessage: { type: "open-external", url } }, "*");
+  try { window.open(url, "_blank", "noopener,noreferrer"); } catch (_) {}
+}
+
+// =============================================================
+//  FONTSOURCE LIST — автопоиск в open-source каталоге.
+//  Список шрифтов кешируется в figma.clientStorage на 24ч.
+// =============================================================
+const FONTSOURCE_CACHE_KEY = "fontsource-list-v1";
+const FONTSOURCE_CACHE_TTL = 24 * 3600 * 1000;
+let fontsourceListPromise = null;
+let fontsourceListMem = null;
+
+function _fontsourceFromCache(payload) {
+  if (!payload || !payload.list || !payload.fetched) return null;
+  if (Date.now() - payload.fetched > FONTSOURCE_CACHE_TTL) return null;
+  if (!Array.isArray(payload.list)) return null;
+  return payload.list;
+}
+
+async function fetchFontsourceList() {
+  if (fontsourceListMem) return fontsourceListMem;
+  if (fontsourceListPromise) return fontsourceListPromise;
+  fontsourceListPromise = (async () => {
+    // 1) clientStorage
+    const cached = await new Promise(resolve => {
+      const handler = (e) => {
+        const m = e.data && e.data.pluginMessage;
+        if (m && m.type === "fontsource-cache") { window.removeEventListener("message", handler); resolve(m.payload); }
+      };
+      window.addEventListener("message", handler);
+      parent.postMessage({ pluginMessage: { type: "load-fontsource-cache" } }, "*");
+      setTimeout(() => { window.removeEventListener("message", handler); resolve(null); }, 1500);
+    });
+    const fromCache = _fontsourceFromCache(cached);
+    if (fromCache) { fontsourceListMem = fromCache; return fromCache; }
+    // 2) сеть
+    const r = await fetch("https://api.fontsource.org/v1/fonts");
+    if (!r.ok) throw new Error(`Fontsource API HTTP ${r.status}`);
+    const list = await r.json();
+    if (!Array.isArray(list)) throw new Error("Fontsource API: неожиданный формат");
+    fontsourceListMem = list;
+    parent.postMessage({ pluginMessage: { type: "save-fontsource-cache", payload: { list, fetched: Date.now() } } }, "*");
+    return list;
+  })().finally(() => { fontsourceListPromise = null; });
+  return fontsourceListPromise;
+}
+
+function searchFontsource(query, list) {
+  const q = query.toLowerCase().trim();
+  if (!q) return [];
+  const norm = q.replace(/\s+/g, "");
+  const out = [];
+  for (const f of list) {
+    const fam = (f.family || "").toLowerCase();
+    const famNorm = fam.replace(/\s+/g, "");
+    let score = 0;
+    if (fam === q || famNorm === norm) score = 100;
+    else if (fam.startsWith(q) || famNorm.startsWith(norm)) score = 80;
+    else if (fam.includes(q) || famNorm.includes(norm)) score = 50;
+    if (score > 0) out.push({ ...f, _score: score });
+  }
+  out.sort((a, b) => b._score - a._score || a.family.localeCompare(b.family));
+  return out.slice(0, 30);
+}
+
+// Чистим имя шрифта от фуфайки: «[Rus by me]», «(by NN)», foundry-маркеры
+// (BT/MT/ITC/Std/Pro/...), weight/style/width маркеры — оставляем чистое
+// имя семейства, по которому реально стоит искать в каталогах.
+function normalizeQuery(q) {
+  let s = String(q || "");
+  s = s.replace(/\[[^\]]*\]/g, " ").replace(/\([^)]*\)/g, " "); // [...] (...)
+  // foundry/sub-family суффиксы (PT не трогаем — это часть имени PT Sans/Serif/Mono в Fontsource)
+  s = s.replace(/\b(BT|MT|ITC|FB|FF|MS|Std|Pro|LT|TT|OT|Bitstream|URW|Adobe|Linotype|Monotype|Berthold|Paratype)\b/gi, " ");
+  // weight markers (Lt = Light, Bd = Bold, и т.д.)
+  s = s.replace(/\b(Thin|Hairline|UltraLight|ExtraLight|Light|Lt|Regular|Reg|Normal|Book|Medium|Md|SemiBold|DemiBold|Bold|Bd|ExtraBold|UltraBold|Black|Bk|Heavy|Hv|ExtraBlack)\b/gi, " ");
+  // style markers
+  s = s.replace(/\b(Italic|Ital|It|Oblique|Slanted|Roman|Upright)\b/gi, " ");
+  return s.replace(/\s+/g, " ").trim();
+}
+
+// Когда точного совпадения нет — пытаемся понять «класс» шрифта по
+// самому имени и подсунуть похожие по стилю из open-source каталога.
+function guessSimilarFonts(name, list) {
+  const lower = String(name || "").toLowerCase();
+  let candidates = [];
+  if (/compact|condens|narrow|compress|impact/.test(lower)) {
+    candidates = ["Bebas Neue", "Anton", "Oswald", "Yanone Kaffeesatz", "Saira Condensed", "Roboto Condensed", "PT Sans Narrow", "Fjalla One", "Big Shoulders Display", "Tektur"];
+  } else if (/display|poster|fat|black|heavy|chunky/.test(lower)) {
+    candidates = ["Bagel Fat One", "Anton", "Bebas Neue", "Bowlby One", "Fugaz One", "Stalinist One", "Russo One", "Yeseva One", "Forum", "Ultra"];
+  } else if (/script|hand|brush|caligraph|cursiv/.test(lower)) {
+    candidates = ["Caveat", "Pacifico", "Lobster", "Marck Script", "Bad Script", "Dancing Script", "Sacramento", "Tangerine", "Allura"];
+  } else if (/serif|garamond|times|baskerville|caslon|didot|bodoni/.test(lower)) {
+    candidates = ["PT Serif", "Playfair Display", "Merriweather", "Lora", "EB Garamond", "Cormorant", "Old Standard TT", "Tinos", "Marcellus"];
+  } else if (/mono|code|courier|console|terminal/.test(lower)) {
+    candidates = ["JetBrains Mono", "Fira Code", "IBM Plex Mono", "Source Code Pro", "Roboto Mono", "PT Mono", "Anonymous Pro"];
+  } else if (/slab/.test(lower)) {
+    candidates = ["Roboto Slab", "Bitter", "Vollkorn", "Crimson Pro"];
+  } else if (/grotesk|grotesque|sans/.test(lower)) {
+    candidates = ["Inter", "Manrope", "Onest", "Jost", "DM Sans", "Hanken Grotesk", "Albert Sans", "Plus Jakarta Sans"];
+  }
+  if (!candidates.length) return [];
+  const lookup = new Set(candidates.map(c => c.toLowerCase()));
+  return list.filter(f => lookup.has((f.family || "").toLowerCase())).slice(0, 12);
+}
+
+function _humanWeights(weights) {
+  if (!weights || !weights.length) return "";
+  const min = Math.min(...weights), max = Math.max(...weights);
+  if (min === max) return weightLabel(min);
+  return `${weightLabel(min)}…${weightLabel(max)} (${weights.length})`;
+}
+
+async function showFindFontModal(family) {
+  $("#find-modal-name").textContent = family;
+  const status = $("#find-modal-status");
+  const results = $("#find-modal-results");
+  const links = $("#find-modal-links");
+  status.textContent = "Ищу в открытых каталогах…";
+  status.style.color = "var(--text-soft)";
+  results.innerHTML = "";
+  // фоллбек-ссылки (для proprietary шрифтов или если автопоиск ничего не дал)
+  links.innerHTML = FIND_SOURCES.map(s => {
+    const url = s.url(family);
+    return `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer" class="find-link" data-find-url="${escape(url)}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:5px;background:var(--bg-soft);color:var(--text);text-decoration:none;font-size:12px;transition:border-color 0.15s">
+      <span><b style="color:var(--accent)">${escape(s.label)}</b> <span style="color:var(--text-soft);font-size:11px">— ${escape(s.note)}</span></span>
+      <span style="color:var(--text-soft);font-size:14px">↗</span>
+    </a>`;
+  }).join("");
+  $("#find-modal-bg").classList.add("open");
+
+  // запускаем поиск
+  let list;
+  try { list = await fetchFontsourceList(); }
+  catch (e) {
+    status.textContent = "Не удалось загрузить open-source каталог: " + (e.message || e);
+    status.style.color = "var(--warn)";
+    return;
+  }
+
+  // Каскад: точно → нормализованное имя → первое слово → похожие по стилю.
+  let matches = searchFontsource(family, list);
+  let usedQuery = family;
+  let suggestion = false;
+
+  if (!matches.length) {
+    const cleaned = normalizeQuery(family);
+    if (cleaned && cleaned.toLowerCase() !== family.toLowerCase()) {
+      const m2 = searchFontsource(cleaned, list);
+      if (m2.length) { matches = m2; usedQuery = cleaned; }
+    }
+  }
+  if (!matches.length) {
+    const cleaned = normalizeQuery(family);
+    const first = (cleaned || family).split(/\s+/)[0];
+    if (first && first.length >= 3 && first.toLowerCase() !== family.toLowerCase()) {
+      const m3 = searchFontsource(first, list);
+      if (m3.length) { matches = m3; usedQuery = first; }
+    }
+  }
+  if (!matches.length) {
+    const sim = guessSimilarFonts(family, list);
+    if (sim.length) { matches = sim; suggestion = true; }
+  }
+
+  if (!matches.length) {
+    status.innerHTML = `Ничего не найдено в open-source каталоге <b>(${list.length} шрифтов)</b>. Возможно, это коммерческий или самодельный шрифт — попробуй ссылки ниже.`;
+    return;
+  }
+
+  if (suggestion) {
+    status.innerHTML = `Точного совпадения нет — но по стилю имени могут подойти эти бесплатные альтернативы (<b style="color:var(--accent)">${matches.length}</b>):`;
+  } else if (usedQuery !== family) {
+    status.innerHTML = `Найдено по очищенному запросу «<b>${escape(usedQuery)}</b>»: <b style="color:var(--accent)">${matches.length}</b>`;
+  } else {
+    status.innerHTML = `Найдено в open-source каталоге: <b style="color:var(--accent)">${matches.length}</b>`;
+  }
+  renderFindResults(matches);
+}
+
+function renderFindResults(matches) {
+  const results = $("#find-modal-results");
+  results.innerHTML = matches.map(f => {
+    const id = String(f.id || "");
+    const fam = String(f.family || "");
+    const wCount = (f.weights || []).length;
+    const sCount = (f.styles || []).length;
+    const variants = wCount * sCount;
+    const subsetTag = (f.subsets || []).includes("cyrillic")
+      ? `<span class="badge ok" style="font-size:9px">cyr</span>` : "";
+    const cat = f.category ? `<span class="badge" style="font-size:9px">${escape(f.category)}</span>` : "";
+    // вес для превью: 400 если есть, иначе ближайший к 400
+    const weights = f.weights || [400];
+    const previewWeight = weights.includes(400) ? 400 : nearestWeight(weights, 400);
+    const styles = f.styles || ["normal"];
+    const previewStyle = styles.includes("normal") ? "normal" : styles[0];
+    const subset = (f.subsets || []).includes("cyrillic") ? "cyrillic" : "latin";
+    return `<div class="find-result" style="display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--border);border-radius:5px;background:var(--bg-soft)">
+      <div style="flex:1;min-width:0;overflow:hidden">
+        <div style="font-weight:700;font-size:13px;letter-spacing:-0.01em">${escape(fam)}</div>
+        <div class="find-preview loading" data-id="${escape(id)}" data-family="${escape(fam)}" data-subset="${subset}" data-weight="${previewWeight}" data-style="${previewStyle}" style="font-size:18px;line-height:1.25;margin:6px 0 4px;color:var(--text-soft);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">загружаю превью…</div>
+        <div style="font-size:10px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.08em;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+          <span>${variants} нач.</span>
+          <span>${escape(_humanWeights(f.weights || []))}</span>
+          ${subsetTag}
+          ${cat}
+        </div>
+      </div>
+      <button class="primary find-download-btn" data-id="${escape(id)}" data-family="${escape(fam)}" style="flex-shrink:0;padding:6px 10px;font-size:11px">Скачать</button>
+    </div>`;
+  }).join("");
+  // подгружаем превью параллельно
+  results.querySelectorAll(".find-preview.loading").forEach(loadFindPreview);
+}
+
+async function loadFindPreview(el) {
+  if (!el || !el.classList.contains("loading")) return;
+  try {
+    const id = el.dataset.id;
+    const family = el.dataset.family;
+    const weight = +el.dataset.weight;
+    const style = el.dataset.style;
+    const subset = el.dataset.subset || "latin";
+    const url = googleFontUrl(id, subset, weight, style);
+    const bytes = await fetchFont(url);
+    const cssFam = await ensureFontFace(family, weight, style, bytes);
+    el.style.fontFamily = `'${cssFam}', sans-serif`;
+    el.style.fontStyle = style;
+    el.style.fontWeight = String(weight);
+    el.style.color = "var(--text)";
+    el.textContent = state.sample || family;
+    el.classList.remove("loading");
+  } catch (e) {
+    el.textContent = "превью недоступно";
+    el.style.color = "var(--warn)";
+    el.classList.remove("loading");
+  }
+}
+
+async function downloadFontsourceFamily(id, family) {
+  const list = await fetchFontsourceList();
+  const f = list.find(x => x.id === id);
+  if (!f) { alert("Шрифт не найден в каталоге."); return; }
+  const weights = f.weights || [400];
+  const styles = f.styles || ["normal"];
+  const subset = (f.subsets || []).includes("cyrillic") ? "cyrillic" : "latin";
+  const variants = [];
+  for (const w of weights) for (const s of styles) variants.push({ w, s });
+  if (!variants.length) { alert("Нет доступных начертаний."); return; }
+  // оценка: средний ttf на subset ≈ 70 KB
+  const estMB = (variants.length * 70 / 1024).toFixed(1);
+  if (!confirm(`Скачать «${family}» — ${variants.length} начертаний (≈ ${estMB} MB) в ZIP-архиве?`)) return;
+
+  $("#find-modal-bg").classList.remove("open");
+  setProgress(2);
+  const entries = [];
+  const failed = [];
+  let i = 0;
+  for (const v of variants) {
+    i++;
+    setProgress(Math.round((i / variants.length) * 90));
+    const url = googleFontUrl(id, subset, v.w, v.s);
+    try {
+      const bytes = await fetchFont(url);
+      const safeFam = family.replace(/[^\w\-А-Яа-яЁё ]/g, "").replace(/\s+/g, "");
+      const fname = `${safeFam}/${safeFam}-${v.w}${v.s === "italic" ? "Italic" : ""}.ttf`;
+      entries.push({ name: fname, data: bytes });
+    } catch (err) {
+      failed.push(`${family} ${v.w} ${v.s}: ${err.message || err}`);
+    }
+  }
+  if (!entries.length) {
+    setProgress(0);
+    alert("Не удалось скачать ни одного начертания.\n\n" + failed.slice(0, 5).join("\n"));
+    return;
+  }
+  const zip = buildZip(entries);
+  setProgress(95);
+  const blob = new Blob([zip], { type: "application/zip" });
+  const url = URL.createObjectURL(blob);
+  const filename = `${family.replace(/[^\w\-]/g, "")}-${new Date().toISOString().slice(0,10)}.zip`;
+  let triggered = false;
+  try {
+    const a = document.createElement("a");
+    a.href = url; a.download = filename; a.style.display = "none";
+    document.body.appendChild(a); a.click(); triggered = true;
+    setTimeout(() => { try { a.remove(); } catch (_) {} }, 2000);
+  } catch (_) {}
+  setProgress(100); setTimeout(() => setProgress(0), 600);
+  showInstallHint(entries.length, { url, filename, failed, triggered });
+  parent.postMessage({ pluginMessage: { type: "notify", text: `«${family}» — скачано ${entries.length} начертаний.` } }, "*");
+}
+
+$("#find-modal-bg").addEventListener("click", (e) => {
+  // клик по бэкграунду закрывает модалку
+  if (e.target.id === "find-modal-bg") { $("#find-modal-bg").classList.remove("open"); return; }
+  // клик по результату Fontsource — скачивание после подтверждения
+  const dlBtn = e.target.closest(".find-download-btn");
+  if (dlBtn) {
+    e.preventDefault();
+    e.stopPropagation();
+    const id = dlBtn.dataset.id;
+    const family = dlBtn.dataset.family;
+    dlBtn.disabled = true;
+    dlBtn.textContent = "Загрузка…";
+    downloadFontsourceFamily(id, family).catch(err => {
+      console.error("[fonts-plugin] fontsource download failed", err);
+      alert("Не удалось скачать: " + (err.message || err));
+    }).finally(() => { dlBtn.disabled = false; dlBtn.textContent = "Скачать"; });
+    return;
+  }
+  // клик по fallback-ссылке — открывает в браузере
+  const link = e.target.closest(".find-link");
+  if (link) {
+    e.preventDefault();
+    openExternal(link.dataset.findUrl);
+  }
+});
+$("#find-modal-close").addEventListener("click", () => $("#find-modal-bg").classList.remove("open"));
+
 main.addEventListener("click", async (e) => {
+  // «🔎 Найти шрифт» в плейсхолдере для семейств вне каталога
+  const findBtn = e.target.closest(".find-font-btn");
+  if (findBtn) {
+    e.stopPropagation();
+    showFindFontModal(findBtn.dataset.findName || "");
+    return;
+  }
+  // «Загрузить ZIP» в том же плейсхолдере — переключение на вкладку upload
+  const gotoTab = e.target.closest("[data-goto-tab]");
+  if (gotoTab) {
+    e.stopPropagation();
+    const tabName = gotoTab.dataset.gotoTab;
+    const tabBtn = document.querySelector(`.tab[data-tab="${tabName}"]`);
+    if (tabBtn) tabBtn.click();
+    return;
+  }
   // bulk-кнопки в карточке: «все» / «×»
   const bulk = e.target.closest("[data-bulk]");
   if (bulk) {
@@ -1097,7 +1706,7 @@ main.addEventListener("click", async (e) => {
     const action = bulk.dataset.bulk; // "all" | "none"
     if (!card.classList.contains("open")) {
       card.classList.add("open");
-      card.querySelectorAll("[data-row]").forEach(row => loadRowPreview(row));
+      card.querySelectorAll("[data-row]").forEach(row => observeRowPreview(row));
     }
     card.querySelectorAll("[data-row]").forEach(row => {
       const cb = row.querySelector('input[type="checkbox"]');
@@ -1134,8 +1743,8 @@ main.addEventListener("click", async (e) => {
     const card = head.parentElement;
     card.classList.toggle("open");
     if (card.classList.contains("open")) {
-      // lazy-load превью для всех строк
-      card.querySelectorAll("[data-row]").forEach(row => loadRowPreview(row));
+      // lazy-load превью для видимых строк (через IntersectionObserver)
+      card.querySelectorAll("[data-row]").forEach(row => observeRowPreview(row));
     }
     return;
   }
@@ -1168,6 +1777,7 @@ main.addEventListener("click", async (e) => {
 $("#search").addEventListener("input", (e) => { state.search = e.target.value; renderTab(); });
 $("#sample").addEventListener("input", (e) => {
   state.sample = e.target.value;
+  state.sampleEdited = true; // юзер хозяин — больше не перетираем из selection
   document.querySelectorAll("[data-preview]").forEach(p => { if (!p.classList.contains("loading")) p.textContent = state.sample; });
   schedulePrefsSave();
 });
@@ -1196,11 +1806,27 @@ function applyLoadedPrefs(prefs) {
   if (typeof prefs.sample === "string" && prefs.sample.length) {
     state.sample = prefs.sample;
     $("#sample").value = prefs.sample;
+    state.sampleEdited = true; // у юзера уже есть сохранённый сэмпл — это его выбор, не подменяем
   }
   if (typeof prefs.size === "number" && prefs.size >= 10 && prefs.size <= 64) {
     state.size = prefs.size;
     $("#size").value = prefs.size;
   }
+}
+
+function applySelectionSample() {
+  // Если юзер не редактировал поле сэмпла вручную и scope=selection,
+  // подставляем реальный текст из выделения — превью становится наглядным.
+  if (state.sampleEdited) return;
+  const sample = (state.scope === "selection" && state.selectionSample) ? state.selectionSample : "";
+  if (!sample) return;
+  if (sample === state.sample) return;
+  state.sample = sample;
+  $("#sample").value = sample;
+  // обновляем уже отрисованные превью без полного re-render
+  document.querySelectorAll("[data-preview]").forEach(p => {
+    if (!p.classList.contains("loading")) p.textContent = sample;
+  });
 }
 $("#missing-only").addEventListener("click", () => {
   state.filterMissingOnly = !state.filterMissingOnly;
@@ -1210,6 +1836,13 @@ $("#missing-only").addEventListener("click", () => {
 $("#rescan").addEventListener("click", () => parent.postMessage({ pluginMessage: { type: "scan" } }, "*"));
 $("#clear").addEventListener("click", () => { state.selected.clear(); document.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false); updateFooter(); });
 $("#download").addEventListener("click", onDownload);
+$("#install").addEventListener("click", onInstall);
+// Если File System Access API недоступен — показываем подсказку прямо в кнопке
+if (!FS_SUPPORTED) {
+  const ib = $("#install");
+  ib.title = "Недоступно в этой версии Figma Desktop — используй ZIP";
+  ib.style.opacity = "0.5";
+}
 $("#modal-close").addEventListener("click", () => $("#modal-bg").classList.remove("open"));
 
 function bindDrop() {
@@ -1299,12 +1932,195 @@ function parseFontFilename(path) {
 
 function updateFooter() {
   const n = state.selected.size;
-  $("#info").textContent = `Выбрано: ${n} начертан${n === 1 ? "ие" : (n >= 2 && n <= 4 ? "ия" : "ий")}`;
+  $("#info").innerHTML = n === 0
+    ? "Выбрано: <b>0</b>"
+    : `Выбрано: <b>${n}</b> ${n === 1 ? "начертание" : (n >= 2 && n <= 4 ? "начертания" : "начертаний")}`;
   $("#download").disabled = n === 0;
+  $("#install").disabled = n === 0 || !FS_SUPPORTED;
 }
 
 function setProgress(pct) {
   $("#progress").style.width = pct + "%";
+}
+
+// =============================================================
+//  ONE-CLICK INSTALL — File System Access API + IndexedDB persist
+//  Браузер один раз спрашивает у юзера папку шрифтов; handle хранится в IDB,
+//  следующие установки идут без диалога.
+//  (FS_SUPPORTED объявлен выше — в секции EVENT BINDING.)
+// =============================================================
+const IDB_NAME = "volt-fonts";
+const IDB_STORE = "handles";
+const IDB_KEY = "fontsDir";
+
+function idbOpen() {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(IDB_NAME, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore(IDB_STORE);
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+async function idbGet(key) {
+  const db = await idbOpen();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(IDB_STORE, "readonly");
+    const r = tx.objectStore(IDB_STORE).get(key);
+    r.onsuccess = () => resolve(r.result);
+    r.onerror = () => reject(r.error);
+  });
+}
+async function idbSet(key, val) {
+  const db = await idbOpen();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction(IDB_STORE, "readwrite");
+    tx.objectStore(IDB_STORE).put(val, key);
+    tx.oncomplete = () => resolve();
+    tx.onerror = () => reject(tx.error);
+  });
+}
+
+async function getInstallDirectory(forcePicker) {
+  if (!FS_SUPPORTED) throw new Error("FS_NOT_SUPPORTED");
+  if (!forcePicker) {
+    try {
+      const saved = await idbGet(IDB_KEY);
+      if (saved) {
+        // запросить readwrite-разрешение на сохранённый handle
+        const perm = await saved.queryPermission({ mode: "readwrite" });
+        if (perm === "granted") return saved;
+        const req = await saved.requestPermission({ mode: "readwrite" });
+        if (req === "granted") return saved;
+      }
+    } catch (e) {
+      console.warn("[fonts-plugin] saved dir handle invalid", e);
+    }
+  }
+  // показать picker
+  const os = detectOS();
+  const opts = { mode: "readwrite" };
+  // startIn: best-guess — на Mac обычно "documents"; настоящая ~/Library/Fonts
+  // в picker недоступна как стартовая директория, юзер навигирует руками.
+  const handle = await window.showDirectoryPicker(opts);
+  await idbSet(IDB_KEY, handle);
+  return handle;
+}
+
+async function writeFontFile(dirHandle, name, bytes) {
+  const safeName = sanitizeArchivePath(name).split("/").pop() || "font.ttf";
+  const fileHandle = await dirHandle.getFileHandle(safeName, { create: true });
+  const writable = await fileHandle.createWritable();
+  await writable.write(bytes);
+  await writable.close();
+  return safeName;
+}
+
+async function onInstall() {
+  console.log("[fonts-plugin] onInstall start; selected:", state.selected.size);
+  if (!state.selected.size) {
+    alert("Ничего не выбрано. Поставь чекбоксы напротив нужных начертаний.");
+    return;
+  }
+  if (!FS_SUPPORTED) {
+    alert(`Прямая установка недоступна в этой версии Figma.\n\nЭто потому что Figma Desktop ниже сборки 124, или плагин запущен в окружении без File System Access API.\n\nИспользуй кнопку «ZIP» — после скачивания распакуй и установи руками. Полная инструкция — в модалке после скачивания.`);
+    return;
+  }
+
+  const btn = $("#install");
+  btn.disabled = true;
+  setProgress(2);
+
+  let dirHandle;
+  try {
+    dirHandle = await getInstallDirectory(false);
+  } catch (err) {
+    console.error("[fonts-plugin] dir picker", err);
+    setProgress(0); btn.disabled = false;
+    if (err && err.name === "AbortError") return; // юзер закрыл диалог
+    alert("Не удалось получить доступ к папке: " + (err.message || err));
+    return;
+  }
+
+  // Сначала собираем bytes (re-using fetch logic), потом пишем в директорию
+  const installed = [];
+  const failed = [];
+  let i = 0;
+  try {
+    for (const [, item] of state.selected) {
+      i++;
+      setProgress(Math.round((i / state.selected.size) * 90));
+      let bytes = item.bytes;
+      let url = item.url;
+      if (!bytes && !url && item.vendor === "fontshare") {
+        try {
+          const cat = STARTER_CATALOG.find(c => c.family === item.family && c.source === "fontshare");
+          if (cat) url = await resolveCatalogUrl(cat, item.weight, item.style);
+        } catch (err) {
+          failed.push(`${item.family} ${item.weight}: ${err.message}`); continue;
+        }
+      }
+      if (!bytes && url) {
+        try { bytes = await fetchFont(url); }
+        catch (err) { failed.push(`${item.family} ${item.weight}: ${err.message}`); continue; }
+      }
+      if (!bytes) { failed.push(`${item.family} ${item.weight}: нет данных`); continue; }
+      if (!isFontMagic(bytes)) { failed.push(`${item.family} ${item.weight}: bad magic`); continue; }
+
+      const safeFam = item.family.replace(/[^\w\-А-Яа-яЁё ]/g, "").replace(/\s+/g, "");
+      const ext = item.source === "user" && item.name && /\.(otf|woff2?)$/i.test(item.name)
+        ? item.name.match(/\.(otf|woff2?)$/i)[0] : ".ttf";
+      const fname = `${safeFam}-${item.weight}${item.style === "italic" ? "Italic" : ""}${ext}`;
+
+      try {
+        const written = await writeFontFile(dirHandle, fname, bytes);
+        installed.push(written);
+      } catch (err) {
+        console.error("[fonts-plugin] write failed", fname, err);
+        failed.push(`${fname}: ${err.message}`);
+      }
+    }
+    setProgress(100);
+    setTimeout(() => setProgress(0), 600);
+
+    showInstalledHint(installed, failed, dirHandle.name || "");
+    btn.disabled = false;
+    parent.postMessage({ pluginMessage: { type: "notify", text: `Установлено ${installed.length} шрифтов в систему. Перезапусти Figma.` } }, "*");
+  } catch (e) {
+    console.error("[fonts-plugin] onInstall error", e);
+    setProgress(0);
+    btn.disabled = false;
+    alert("Ошибка при установке:\n" + (e && e.message || e));
+  }
+}
+
+function showInstalledHint(installed, failed, dirName) {
+  const os = detectOS();
+  const fontsDir = os === "mac" ? "~/Library/Fonts/" : (os === "win" ? "%LOCALAPPDATA%\\Microsoft\\Windows\\Fonts" : "выбранную папку");
+  const right = installed.length > 0;
+  const wrong = installed.length === 0;
+  const failedHtml = failed.length
+    ? `<details style="margin-top:8px"><summary style="cursor:pointer;color:var(--warn)">Не установлено: ${failed.length}</summary><ul style="margin:6px 0 0 18px;font-size:11px">${failed.slice(0, 10).map(x => `<li>${escape(x)}</li>`).join("")}</ul></details>`
+    : "";
+  const dirHint = dirName ? `<p style="color:var(--muted)">Папка: <code>${escape(dirName)}</code></p>` : "";
+  const wrongPathWarn = (dirName && fontsDir && dirName.toLowerCase() !== "fonts" && !/font/i.test(dirName))
+    ? `<p style="color:var(--warn);background:rgba(255,71,51,0.08);padding:8px 10px;border-radius:6px;border:1px solid rgba(255,71,51,0.3)">⚠️ Папка <code>${escape(dirName)}</code> не похожа на системную папку шрифтов. Если шрифты не появились в Figma — нажми кнопку <b>«Сменить папку»</b> и выбери <code>${escape(fontsDir)}</code>.</p>`
+    : "";
+  const body = right
+    ? `
+      <p>Установлено <b style="color:var(--accent)">${installed.length}</b> шрифтов прямо в систему.</p>
+      ${dirHint}
+      ${wrongPathWarn}
+      <ol>
+        <li><b>Перезапусти Figma Desktop</b> — без рестарта новые семейства не появятся.</li>
+        <li>${os === "mac" ? "На macOS Figma подхватит шрифты из <code>~/Library/Fonts/</code> автоматически после рестарта." : "На Windows шрифты в <code>%LOCALAPPDATA%\\Microsoft\\Windows\\Fonts</code> работают без админа."}</li>
+        <li>Если используешь Figma в браузере — обнови вкладку.</li>
+      </ol>
+      ${failedHtml}
+    `
+    : `<p style="color:var(--warn)">Ни один шрифт не установлен.</p>${failedHtml}`;
+  $("#modal-title").textContent = right ? "⚡ Установлено" : "Не удалось установить";
+  $("#modal-body").innerHTML = body;
+  $("#modal-bg").classList.add("open");
 }
 
 // =============================================================
@@ -1477,6 +2293,7 @@ window.onmessage = (e) => {
     state.scan.selection = msg.selection || null;
     state.scan.selectionCount = msg.selectionCount || 0;
     state.scan.pageName = msg.pageName || "";
+    state.selectionSample = (msg.selectionSample || "").trim();
     // первый автозапуск: если есть выделение — переключаемся на него.
     if (!state._initialized) {
       state._initialized = true;
@@ -1486,6 +2303,7 @@ window.onmessage = (e) => {
           b.classList.toggle("active", b.dataset.scope === "selection"));
       }
     }
+    applySelectionSample();
     autoSelectFromScope();
     updateScopeInfo();
     renderTab();

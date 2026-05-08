@@ -3,15 +3,23 @@
 ## Этап A — плагин-only (текущий)
 
 - [x] Скан документа на используемые шрифты + проверка доступности в ОС.
-- [x] Каталог из 50 популярных Google Fonts (Fontsource CDN).
+- [x] Каталог из ~150 популярных Google Fonts + 16 Fontshare (Fontsource CDN).
+- [x] Кнопка «🔎 Найти шрифт в сети» для семейств вне каталога — поиск по
+      бесплатным источникам (Google Fonts, Fontsource, Fontshare,
+      Font Squirrel, 1001 Fonts, DaFont, Fontesk, Google поиск)
+      через `figma.openExternal`.
 - [x] Превью каждого начертания через FontFace API.
 - [x] Загрузка пользовательского ZIP / отдельных файлов (TTF/OTF/WOFF/WOFF2).
 - [x] STORE-ZIP writer с CRC32 (без зависимостей).
 - [x] OS-aware install hint после скачивания (Windows / macOS).
+- [x] Предпросмотр на тексте, выделенном в Figma (берём первые ~160 символов
+      из text-узлов выделения; авто-применяется в scope=selection, пока
+      пользователь не отредактировал поле сэмпла вручную).
+- [x] Lazy-load превью через `IntersectionObserver` (root=main, rootMargin
+      200px) — на больших проектах не запускаем сотни параллельных fetch.
 - [ ] Полный каталог Google Fonts через `api.fontsource.org` по кнопке
       «Загрузить весь каталог» (с дисковым кешем в `figma.clientStorage`).
 - [ ] Bunny Fonts fallback при недоступности jsdelivr.
-- [ ] Предпросмотр на тексте, выделенном в Figma (брать из selection).
 - [ ] Сохранение «пресетов проекта» в `figma.clientStorage` — запомнить
       выбор для повторного скачивания на другой машине.
 

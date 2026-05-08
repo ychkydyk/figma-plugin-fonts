@@ -3,7 +3,7 @@
 // Возвращает в UI кортежи (family, weight, style) — не строки стиля Figma —
 // чтобы UI мог автоматически отметить именно нужные начертания в каталоге.
 
-figma.showUI(__html__, { width: 540, height: 700, themeColors: true });
+figma.showUI(__html__, { width: 560, height: 740, title: "VOLT · Fonts", themeColors: false });
 
 function classifyStyle(figmaStyle) {
   const lower = String(figmaStyle || "").toLowerCase();
@@ -89,6 +89,27 @@ function packFamilies(used, availableSet) {
   return out;
 }
 
+function collectSampleFrom(roots, maxLen) {
+  // Берём первые непустые .characters из текстовых узлов в выделении —
+  // даём UI настоящий «текст проекта» вместо панграммы по умолчанию.
+  const parts = [];
+  let total = 0;
+  function visit(node) {
+    if (total >= maxLen) return;
+    if (node.type === "TEXT" && typeof node.characters === "string") {
+      const t = node.characters.replace(/\s+/g, " ").trim();
+      if (t) {
+        const slice = t.length > maxLen - total ? t.slice(0, maxLen - total) : t;
+        parts.push(slice);
+        total += slice.length + 1;
+      }
+    }
+    if ("children" in node) for (const c of node.children) { if (total >= maxLen) break; visit(c); }
+  }
+  for (const r of roots) { if (total >= maxLen) break; visit(r); }
+  return parts.join(" ").trim();
+}
+
 async function scan() {
   const docRoots = figma.root.children; // все страницы
   const selRoots = figma.currentPage.selection;
@@ -102,6 +123,7 @@ async function scan() {
     document: packFamilies(docUsed, availableSet),
     selection: selUsed ? packFamilies(selUsed, availableSet) : null,
     selectionCount: selRoots.length,
+    selectionSample: selRoots.length ? collectSampleFrom(selRoots, 160) : "",
     pageName: figma.currentPage.name
   };
 }
@@ -117,6 +139,7 @@ figma.ui.onmessage = async (msg) => {
         document: result.document,
         selection: result.selection,
         selectionCount: result.selectionCount,
+        selectionSample: result.selectionSample,
         pageName: result.pageName
       });
     } catch (e) {
@@ -126,6 +149,12 @@ figma.ui.onmessage = async (msg) => {
   }
   if (msg.type === "notify") { figma.notify(msg.text || ""); return; }
   if (msg.type === "close")  { figma.closePlugin(); return; }
+  if (msg.type === "open-external") {
+    // figma.openExternal валидирует URL и открывает в системном браузере;
+    // защищает плагин-sandbox от попыток открыть file:// и прочее.
+    try { figma.openExternal(String(msg.url || "")); } catch (e) { /* ignore */ }
+    return;
+  }
   if (msg.type === "load-prefs") {
     try {
       const prefs = await figma.clientStorage.getAsync(PREFS_KEY);
@@ -137,6 +166,20 @@ figma.ui.onmessage = async (msg) => {
   }
   if (msg.type === "save-prefs") {
     try { await figma.clientStorage.setAsync(PREFS_KEY, msg.prefs || {}); } catch (e) { /* ignore */ }
+    return;
+  }
+  if (msg.type === "load-fontsource-cache") {
+    try {
+      const payload = await figma.clientStorage.getAsync("fontsource-cache-v1");
+      figma.ui.postMessage({ type: "fontsource-cache", payload: payload || null });
+    } catch (e) {
+      figma.ui.postMessage({ type: "fontsource-cache", payload: null });
+    }
+    return;
+  }
+  if (msg.type === "save-fontsource-cache") {
+    // ~1500 шрифтов = ~250 KB — клиентское хранилище справится.
+    try { await figma.clientStorage.setAsync("fontsource-cache-v1", msg.payload || null); } catch (e) { /* ignore */ }
     return;
   }
 };
@@ -155,6 +198,7 @@ figma.on("selectionchange", function () {
         document: result.document,
         selection: result.selection,
         selectionCount: result.selectionCount,
+        selectionSample: result.selectionSample,
         pageName: result.pageName
       });
     } catch (e) { /* ignore */ }
