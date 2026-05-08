@@ -1426,6 +1426,54 @@ function searchFontsource(query, list) {
   return out.slice(0, 30);
 }
 
+// Левенштейн без зависимостей — на ~2000 шрифтов в Fontsource
+// проходит за единицы миллисекунд. Используется для fuzzy-сопоставления
+// при опечатках или нестандартных написаниях (Roboot → Roboto и т.п.).
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  const m = a.length, n = b.length;
+  if (!m) return n;
+  if (!n) return m;
+  let prev = new Array(n + 1);
+  let curr = new Array(n + 1);
+  for (let j = 0; j <= n; j++) prev[j] = j;
+  for (let i = 1; i <= m; i++) {
+    curr[0] = i;
+    for (let j = 1; j <= n; j++) {
+      const cost = a.charCodeAt(i - 1) === b.charCodeAt(j - 1) ? 0 : 1;
+      curr[j] = Math.min(curr[j - 1] + 1, prev[j] + 1, prev[j - 1] + cost);
+    }
+    const t = prev; prev = curr; curr = t;
+  }
+  return prev[n];
+}
+
+// Нечёткий поиск: толерантный к опечаткам и небольшим расхождениям
+// в написании. maxDist масштабируется от длины запроса (~1 опечатка
+// на каждые 3 символа). Сравниваем и с целым именем, и с каждым
+// отдельным словом — чтобы «compacta» матчился с «Compact Display».
+function fuzzySearchFontsource(query, list) {
+  const q = String(query || "").toLowerCase().trim().replace(/\s+/g, "");
+  if (!q || q.length < 3) return [];
+  const maxDist = Math.max(2, Math.floor(q.length / 3));
+  const out = [];
+  for (const f of list) {
+    const fam = (f.family || "").toLowerCase();
+    if (!fam) continue;
+    const famNorm = fam.replace(/\s+/g, "");
+    let bestDist = levenshtein(q, famNorm);
+    const words = fam.split(/\s+/);
+    for (const w of words) {
+      if (w.length < 3) continue;
+      const d = levenshtein(q, w);
+      if (d < bestDist) bestDist = d;
+    }
+    if (bestDist <= maxDist) out.push({ ...f, _dist: bestDist });
+  }
+  out.sort((a, b) => a._dist - b._dist || a.family.localeCompare(b.family));
+  return out.slice(0, 15);
+}
+
 // Чистим имя шрифта от фуфайки: «[Rus by me]», «(by NN)», foundry-маркеры
 // (BT/MT/ITC/Std/Pro/...), weight/style/width маркеры — оставляем чистое
 // имя семейства, по которому реально стоит искать в каталогах.
@@ -1500,16 +1548,17 @@ async function showFindFontModal(family) {
     return;
   }
 
-  // Каскад: точно → нормализованное имя → первое слово → похожие по стилю.
+  // Каскад: точно → нормализованное → первое слово → fuzzy (Левенштейн)
+  // → похожие по стилю. Каждый следующий шаг шире и менее точен.
   let matches = searchFontsource(family, list);
   let usedQuery = family;
-  let suggestion = false;
+  let mode = "exact"; // exact | cleaned | firstword | fuzzy | similar
 
   if (!matches.length) {
     const cleaned = normalizeQuery(family);
     if (cleaned && cleaned.toLowerCase() !== family.toLowerCase()) {
       const m2 = searchFontsource(cleaned, list);
-      if (m2.length) { matches = m2; usedQuery = cleaned; }
+      if (m2.length) { matches = m2; usedQuery = cleaned; mode = "cleaned"; }
     }
   }
   if (!matches.length) {
@@ -1517,12 +1566,19 @@ async function showFindFontModal(family) {
     const first = (cleaned || family).split(/\s+/)[0];
     if (first && first.length >= 3 && first.toLowerCase() !== family.toLowerCase()) {
       const m3 = searchFontsource(first, list);
-      if (m3.length) { matches = m3; usedQuery = first; }
+      if (m3.length) { matches = m3; usedQuery = first; mode = "firstword"; }
     }
   }
   if (!matches.length) {
+    // fuzzy на нормализованном запросе (или на оригинале, если нормализация
+    // не дала ничего полезного) — толерантно к опечаткам и расхождениям
+    const cleaned = normalizeQuery(family) || family;
+    const fuzzy = fuzzySearchFontsource(cleaned, list);
+    if (fuzzy.length) { matches = fuzzy; usedQuery = cleaned; mode = "fuzzy"; }
+  }
+  if (!matches.length) {
     const sim = guessSimilarFonts(family, list);
-    if (sim.length) { matches = sim; suggestion = true; }
+    if (sim.length) { matches = sim; mode = "similar"; }
   }
 
   if (!matches.length) {
@@ -1530,9 +1586,11 @@ async function showFindFontModal(family) {
     return;
   }
 
-  if (suggestion) {
+  if (mode === "similar") {
     status.innerHTML = `Точного совпадения нет — но по стилю имени могут подойти эти бесплатные альтернативы (<b style="color:var(--accent)">${matches.length}</b>):`;
-  } else if (usedQuery !== family) {
+  } else if (mode === "fuzzy") {
+    status.innerHTML = `Точного совпадения нет — ближайшие по написанию (<b style="color:var(--accent)">${matches.length}</b>) для «<b>${escape(usedQuery)}</b>»:`;
+  } else if (mode !== "exact") {
     status.innerHTML = `Найдено по очищенному запросу «<b>${escape(usedQuery)}</b>»: <b style="color:var(--accent)">${matches.length}</b>`;
   } else {
     status.innerHTML = `Найдено в open-source каталоге: <b style="color:var(--accent)">${matches.length}</b>`;
